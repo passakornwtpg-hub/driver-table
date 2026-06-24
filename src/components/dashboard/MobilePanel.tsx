@@ -4,6 +4,10 @@ import { useState } from "react";
 import { Users, ChevronUp, ChevronDown, X } from "lucide-react";
 import { ReservePool } from "@/components/drivers/ReservePool";
 import { DriverTable } from "@/components/drivers/DriverTable";
+import { RouteSection } from "@/components/routes/RouteSection";
+import { TimetableView } from "@/components/timetable/TimetableView";
+import { useFleetStore } from "@/store/fleetStore";
+import type { RouteId } from "@/types";
 
 type SheetState = "peek" | "full";
 
@@ -13,8 +17,22 @@ const SHEET_HEIGHTS: Record<SheetState, string> = {
 };
 
 export function MobilePanel() {
+  const { routes, drivers } = useFleetStore();
   const [sheetState, setSheetState] = useState<SheetState>("peek");
   const [dragStart, setDragStart] = useState<number | null>(null);
+  const [timetableOpen, setTimetableOpen] = useState(false);
+  const [timetableRoute, setTimetableRoute] = useState<RouteId>("L1");
+
+  const byRoute: Record<string, typeof drivers> = {
+    L1: drivers.filter((d) => d.routeId === "L1"),
+    L2: drivers.filter((d) => d.routeId === "L2"),
+    L3: drivers.filter((d) => d.routeId === "L3"),
+  };
+
+  const openTimetable = (routeId: RouteId) => {
+    setTimetableRoute(routeId);
+    setTimetableOpen(true);
+  };
 
   const toggle = () => setSheetState((prev) => prev === "peek" ? "full" : "peek");
 
@@ -136,8 +154,35 @@ export function MobilePanel() {
           className="flex-1 overflow-y-auto overscroll-contain"
           style={{ WebkitOverflowScrolling: "touch" }}
         >
-          <div className="p-4 space-y-5">
-            <ReservePool />
+          <div className="p-4 space-y-6">
+            
+            {/* Active Routes Section */}
+            <div>
+              <div className="flex items-center justify-between mb-3">
+                <h3 className="text-[14px] font-bold text-[#0f172a]">Active Routes</h3>
+                <span className="text-[10px] text-gray-400">ดูเวลาและตารางเดินรถ</span>
+              </div>
+              <div className="flex flex-col gap-3">
+                {routes.map((route, i) => (
+                  <RouteSection
+                    key={route.id}
+                    route={route}
+                    drivers={byRoute[route.id] ?? []}
+                    lineNum={i + 1}
+                    onShowTimetable={() => openTimetable(route.id)}
+                    expanded={false}
+                  />
+                ))}
+              </div>
+            </div>
+
+            <div
+              className="border-t pt-4"
+              style={{ borderColor: "rgba(26,26,46,0.06)" }}
+            >
+              <ReservePool />
+            </div>
+
             <div
               className="border-t pt-4"
               style={{ borderColor: "rgba(26,26,46,0.06)" }}
@@ -147,6 +192,12 @@ export function MobilePanel() {
           </div>
         </div>
       </div>
+
+      <TimetableView
+        open={timetableOpen}
+        onClose={() => setTimetableOpen(false)}
+        initialRoute={timetableRoute}
+      />
     </>
   );
 }

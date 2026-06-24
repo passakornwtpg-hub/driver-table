@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useRef } from "react";
+import { useFleetStore } from "@/store/fleetStore";
 
 const ROUTES = [
   {
@@ -91,6 +92,7 @@ export function LeafletMap() {
   const mapRef = useRef<HTMLDivElement>(null);
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const mapInstanceRef = useRef<any>(null);
+  const { drivers } = useFleetStore();
 
   useEffect(() => {
     if (!mapRef.current) return;
@@ -123,10 +125,15 @@ export function LeafletMap() {
         L.latLng(13.803, 100.330)  // NorthEast
       );
 
+      const isDesktop = window.innerWidth >= 768;
+      const initialZoom = isDesktop ? 15.7 : 14.5;
+
       map = L.map(mapRef.current, {
         center: [13.7934, 100.3225],
-        zoom: 14.5,
+        zoom: initialZoom,
         minZoom: 14.5,
+        zoomSnap: 0.1,
+        zoomDelta: 0.5,
         maxBounds: campusBounds,
         maxBoundsViscosity: 1.0,
         zoomControl: false,
@@ -199,8 +206,18 @@ export function LeafletMap() {
         L.marker(last, { icon: labelIcon, interactive: false }).addTo(map);
         polyline.bindPopup(`<b>${route.label}</b>`);
 
+        // Map route.id to driver route string
+        const routeIdMap: Record<string, string> = {
+          red: "Line 1",
+          blue: "Line 2",
+          green: "Line 3",
+        };
+        const routeDrivers = drivers.filter(d => d.route === routeIdMap[route.id] && d.status === "Active");
+
         // Buses
-        for(let i=0; i<3; i++) {
+        for(let i=0; i<5; i++) {
+          const driver = routeDrivers.length > 0 ? routeDrivers[i % routeDrivers.length] : null;
+
           const busHtml = L.divIcon({
             className: "",
             html: `
@@ -230,10 +247,21 @@ export function LeafletMap() {
           });
           
           const marker = L.marker(route.points[0], { icon: busHtml, zIndexOffset: 1000 }).addTo(map);
+          
+          if (driver) {
+            marker.bindPopup(`
+              <div style="font-family: sans-serif; text-align: center; padding: 4px;">
+                <b style="font-size: 13px;">${driver.name} ${driver.surname}</b><br/>
+                <span style="font-size: 11px; color: #64748b;">รหัส: ${driver.code}</span><br/>
+                <span style="font-size: 11px; font-weight: bold; color: ${route.color};">รถ: ${driver.vehicle}</span>
+              </div>
+            `, { closeButton: false, offset: [0, -10] });
+          }
+
           busMarkers.push({
             marker,
             route,
-            progress: i * 0.33,
+            progress: i * 0.20,
             speed: 0.00015 + (Math.random() * 0.00010), // Realistic, slower speed
             direction: 1
           });
