@@ -20,7 +20,7 @@ export function ReservePool() {
           className="text-[9px] font-bold px-2 py-0.5 rounded-full"
           style={{
             background: "linear-gradient(135deg, rgba(37,99,235,0.10), rgba(59,130,246,0.06))",
-            color: "#2563eb",
+            color: "#1e3a8a",
             border: "1px solid rgba(37,99,235,0.18)",
           }}
         >

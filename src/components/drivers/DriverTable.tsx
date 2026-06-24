@@ -9,7 +9,7 @@ import { Search, ChevronDown } from "lucide-react";
 
 const ROUTE_COLORS: Record<string, string> = {
   "Line 1": "#dc2626",
-  "Line 2": "#2563eb",
+  "Line 2": "#1e3a8a",
   "Line 3": "#16a34a",
 };
 
@@ -202,7 +202,7 @@ export function DriverTable() {
                           onClick={() => openModal(d.id)}
                           className={`text-white font-bold rounded-md transition-all duration-200 active:scale-95 ${exp ? "text-[10px] px-3 py-1.5" : "text-[8px] px-2 py-1"}`}
                           style={{
-                            background: "linear-gradient(135deg, #2563eb, #3b82f6)",
+                            background: "linear-gradient(135deg, #1e3a8a, #1e40af)",
                             boxShadow: "0 2px 8px rgba(37,99,235,0.30)",
                           }}
                           onMouseEnter={(e) => {

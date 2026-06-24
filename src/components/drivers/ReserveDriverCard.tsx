@@ -105,8 +105,8 @@ export function ReserveDriverCard({ driver }: ReserveDriverCardProps) {
       {/* Selected badge */}
       {isSelected && !isAssigned && (
         <div className="mt-2 flex items-center justify-center gap-1 relative z-10">
-          <CheckCircle2 className="w-3 h-3 text-[#2563eb]" />
-          <span className="text-[9px] text-[#2563eb] font-bold">Selected</span>
+          <CheckCircle2 className="w-3 h-3 text-[#1e3a8a]" />
+          <span className="text-[9px] text-[#1e3a8a] font-bold">Selected</span>
         </div>
       )}
     </div>

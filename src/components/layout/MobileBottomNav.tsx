@@ -7,18 +7,26 @@ import {
   Users,
   BarChart3,
 } from "lucide-react";
-import { useState } from "react";
+import Link from "next/link";
+import { usePathname } from "next/navigation";
+import { useEffect, useState } from "react";
 
 const NAV_ITEMS = [
-  { icon: LayoutDashboard, label: "หน้าหลัก", id: "dashboard" },
-  { icon: MapPin,          label: "เส้นทาง",  id: "routes" },
-  { icon: Bus,             label: "กองรถ",    id: "fleet" },
-  { icon: Users,           label: "คนขับ",    id: "drivers" },
-  { icon: BarChart3,       label: "วิเคราะห์", id: "analytics" },
+  { icon: LayoutDashboard, label: "หน้าหลัก", href: "/" },
+  { icon: Users,           label: "คนขับ",    href: "/drivers" },
+  { icon: BarChart3,       label: "วิเคราะห์", href: "/analytics" },
 ];
 
 export function MobileBottomNav() {
-  const [active, setActive] = useState("dashboard");
+  const pathname = usePathname();
+  const [hash, setHash] = useState("");
+
+  useEffect(() => {
+    setHash(window.location.hash);
+    const handleHashChange = () => setHash(window.location.hash);
+    window.addEventListener("hashchange", handleHashChange);
+    return () => window.removeEventListener("hashchange", handleHashChange);
+  }, []);
 
   return (
     <nav
@@ -35,22 +43,27 @@ export function MobileBottomNav() {
         className="absolute inset-x-0 top-0 h-[2px]"
         style={{
           background:
-            "linear-gradient(90deg, #2563eb 0%, #3b82f6 30%, #475569 70%, #0f172a 100%)",
+            "linear-gradient(90deg, #1e3a8a 0%, #1e40af 30%, #475569 70%, #0f172a 100%)",
         }}
       />
 
       <div className="flex items-stretch">
-        {NAV_ITEMS.map(({ icon: Icon, label, id }) => {
-          const isActive = active === id;
+        {NAV_ITEMS.map(({ icon: Icon, label, href }) => {
+          const currentPath = `${pathname}${hash}`;
+          // Simple active check
+          const isActive = href === "/" ? currentPath === "/" : currentPath.startsWith(href);
+          
           return (
-            <button
-              key={id}
-              onClick={() => setActive(id)}
-              className="mobile-nav-item relative overflow-hidden group"
+            <Link
+              key={label}
+              href={href}
+              onClick={() => setHash(href.includes("#") ? `#${href.split("#")[1]}` : "")}
+              className="mobile-nav-item relative overflow-hidden group flex-1 flex flex-col items-center justify-center"
               style={{
-                color: isActive ? "#3b82f6" : "#94a3b8",
+                color: isActive ? "#1e40af" : "#94a3b8",
                 paddingTop: "10px",
                 paddingBottom: "10px",
+                textDecoration: "none"
               }}
             >
               {/* Active background glow */}
@@ -69,7 +82,7 @@ export function MobileBottomNav() {
                   className="absolute top-0 left-1/2 -translate-x-1/2 h-[2px] rounded-full"
                   style={{
                     width: "28px",
-                    background: "linear-gradient(90deg, #2563eb, #3b82f6)",
+                    background: "linear-gradient(90deg, #1e3a8a, #1e40af)",
                     boxShadow: "0 0 8px rgba(37,99,235,0.55)",
                   }}
                 />
@@ -82,12 +95,12 @@ export function MobileBottomNav() {
 
               <Icon
                 className="relative z-10 transition-transform duration-200 group-hover:scale-110"
-                style={{ width: "20px", height: "20px" }}
+                style={{ width: "20px", height: "20px", marginBottom: "4px" }}
               />
               <span className="relative z-10" style={{ fontSize: "9px", fontWeight: 600 }}>
                 {label}
               </span>
-            </button>
+            </Link>
           );
         })}
       </div>

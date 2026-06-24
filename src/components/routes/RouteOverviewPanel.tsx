@@ -55,7 +55,7 @@ export function RouteOverviewPanel() {
         {/* Decorative top gradient bar */}
         <div
           className="absolute inset-x-0 top-0 h-[3px] rounded-t-2xl"
-          style={{ background: "linear-gradient(90deg, #2563eb, #3b82f6, #475569)" }}
+          style={{ background: "linear-gradient(90deg, #1e3a8a, #1e40af, #475569)" }}
         />
 
         {/* Header */}
@@ -93,7 +93,7 @@ export function RouteOverviewPanel() {
                 (e.currentTarget as HTMLButtonElement).style.boxShadow = "none";
               }}
             >
-              <CalendarClock className="w-4 h-4 text-[#2563eb]" />
+              <CalendarClock className="w-4 h-4 text-[#1e3a8a]" />
             </button>
           </div>
         </div>
@@ -108,7 +108,7 @@ export function RouteOverviewPanel() {
               { label: "Routes", value: routes.length, color: "#0f172a" },
               { label: "Active", value: totalActive, color: "#16a34a" },
               { label: "On Leave", value: totalLeave, color: "#dc2626" },
-              { label: "Total", value: drivers.length, color: "#2563eb" },
+              { label: "Total", value: drivers.length, color: "#1e3a8a" },
             ].map((s) => (
               <div
                 key={s.label}

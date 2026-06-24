@@ -22,9 +22,9 @@ export function PanelToggleButton() {
       }}
     >
       {panelsCollapsed ? (
-        <ChevronsLeft className="w-4 h-4 text-[#2563eb]" />
+        <ChevronsLeft className="w-4 h-4 text-[#1e3a8a]" />
       ) : (
-        <ChevronsRight className="w-4 h-4 text-[#2563eb]" />
+        <ChevronsRight className="w-4 h-4 text-[#1e3a8a]" />
       )}
     </button>
   );

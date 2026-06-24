@@ -7,21 +7,29 @@ import {
   Users,
   BarChart3,
   Settings,
-  Zap,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
-import { useState } from "react";
+import Link from "next/link";
+import { usePathname } from "next/navigation";
+import { useEffect, useState } from "react";
 
 const NAV_ITEMS = [
-  { icon: LayoutDashboard, label: "Dashboard", id: "dashboard" },
-  { icon: MapPin,          label: "เส้นทาง",   id: "routes" },
-  { icon: Bus,             label: "กองรถ",     id: "fleet" },
-  { icon: Users,           label: "คนขับ",     id: "drivers" },
-  { icon: BarChart3,       label: "วิเคราะห์",  id: "analytics" },
+  { icon: LayoutDashboard, label: "Dashboard", href: "/" },
+  { icon: Users,           label: "คนขับ",     href: "/drivers" },
+  { icon: BarChart3,       label: "วิเคราะห์",  href: "/analytics" },
 ];
 
 export function Sidebar() {
-  const [active, setActive] = useState("dashboard");
+  const pathname = usePathname();
+  const [hash, setHash] = useState("");
+
+  useEffect(() => {
+    setHash(window.location.hash);
+    const handleHashChange = () => setHash(window.location.hash);
+    window.addEventListener("hashchange", handleHashChange);
+    // Overriding pushState/replaceState to detect Next.js router hash changes just in case
+    return () => window.removeEventListener("hashchange", handleHashChange);
+  }, []);
 
   return (
     <aside
@@ -38,58 +46,67 @@ export function Sidebar() {
       />
 
       {/* Logo */}
-      <div
-        className="w-11 h-11 rounded-xl flex items-center justify-center mb-3 relative overflow-hidden"
-        style={{
-          background: "linear-gradient(135deg, #2563eb 0%, #3b82f6 100%)",
-          boxShadow: "0 4px 16px rgba(37,99,235,0.40), inset 0 1px 0 rgba(255,255,255,0.20)",
-        }}
-      >
-        <Bus className="w-6 h-6 text-white relative z-10 drop-shadow-sm" />
+      <Link href="/">
         <div
-          className="absolute inset-0 rounded-xl"
-          style={{ background: "linear-gradient(135deg, rgba(255,255,255,0.15) 0%, transparent 60%)" }}
-        />
-      </div>
-
-      {NAV_ITEMS.map(({ icon: Icon, label, id }) => (
-        <button
-          key={id}
-          onClick={() => setActive(id)}
-          className={cn(
-            "relative w-[52px] h-[52px] rounded-xl flex flex-col items-center justify-center gap-1",
-            "text-[9px] cursor-pointer group overflow-hidden",
-            "transition-all duration-250"
-          )}
-          style={
-            active === id
-              ? {
-                  background: "linear-gradient(135deg, rgba(37,99,235,0.22), rgba(37,99,235,0.10))",
-                  boxShadow: "0 2px 12px rgba(37,99,235,0.20), inset 0 1px 0 rgba(255,255,255,0.08)",
-                  color: "#3b82f6",
-                }
-              : {
-                  color: "#94a3b8",
-                }
-          }
-          title={label}
+          className="w-11 h-11 rounded-xl flex items-center justify-center mb-3 relative overflow-hidden"
+          style={{
+            background: "linear-gradient(135deg, #1e3a8a 0%, #1e40af 100%)",
+            boxShadow: "0 4px 16px rgba(37,99,235,0.40), inset 0 1px 0 rgba(255,255,255,0.20)",
+          }}
         >
-          {/* Hover bg */}
+          <Bus className="w-6 h-6 text-white relative z-10 drop-shadow-sm" />
           <div
-            className="absolute inset-0 rounded-xl opacity-0 group-hover:opacity-100 transition-opacity duration-200"
-            style={{ background: "rgba(255,255,255,0.06)" }}
+            className="absolute inset-0 rounded-xl"
+            style={{ background: "linear-gradient(135deg, rgba(255,255,255,0.15) 0%, transparent 60%)" }}
           />
-          {/* Active indicator */}
-          {active === id && (
+        </div>
+      </Link>
+
+      {NAV_ITEMS.map(({ icon: Icon, label, href }) => {
+        const currentPath = `${pathname}${hash}`;
+        // Simple active check
+        const isActive = href === "/" ? currentPath === "/" : currentPath.startsWith(href);
+
+        return (
+          <Link
+            key={label}
+            href={href}
+            onClick={() => setHash(href.includes("#") ? `#${href.split("#")[1]}` : "")}
+            className={cn(
+              "relative w-[52px] h-[52px] rounded-xl flex flex-col items-center justify-center gap-1",
+              "text-[9px] cursor-pointer group overflow-hidden",
+              "transition-all duration-250"
+            )}
+            style={
+              isActive
+                ? {
+                    background: "linear-gradient(135deg, rgba(37,99,235,0.22), rgba(37,99,235,0.10))",
+                    boxShadow: "0 2px 12px rgba(37,99,235,0.20), inset 0 1px 0 rgba(255,255,255,0.08)",
+                    color: "#1e40af",
+                  }
+                : {
+                    color: "#94a3b8",
+                  }
+            }
+            title={label}
+          >
+            {/* Hover bg */}
             <div
-              className="absolute left-0 inset-y-3 w-0.5 rounded-r-full"
-              style={{ background: "linear-gradient(180deg, #2563eb, #3b82f6)", boxShadow: "0 0 8px rgba(37,99,235,0.60)" }}
+              className="absolute inset-0 rounded-xl opacity-0 group-hover:opacity-100 transition-opacity duration-200"
+              style={{ background: "rgba(255,255,255,0.06)" }}
             />
-          )}
-          <Icon className="w-5 h-5 relative z-10 transition-transform duration-200 group-hover:scale-110" />
-          <span className="relative z-10 font-semibold">{label}</span>
-        </button>
-      ))}
+            {/* Active indicator */}
+            {isActive && (
+              <div
+                className="absolute left-0 inset-y-3 w-0.5 rounded-r-full"
+                style={{ background: "linear-gradient(180deg, #1e3a8a, #1e40af)", boxShadow: "0 0 8px rgba(37,99,235,0.60)" }}
+              />
+            )}
+            <Icon className="w-5 h-5 relative z-10 transition-transform duration-200 group-hover:scale-110" />
+            <span className="relative z-10 font-semibold">{label}</span>
+          </Link>
+        );
+      })}
 
       {/* Divider */}
       <div className="mt-auto mb-1 w-8 h-[1px]" style={{ background: "rgba(255,255,255,0.08)" }} />

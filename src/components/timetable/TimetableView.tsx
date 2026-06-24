@@ -48,7 +48,7 @@ export function TimetableView({ open, onClose, initialRoute = "L1" }: TimetableV
         {/* Top gradient bar */}
         <div
           className="absolute inset-x-0 top-0 h-[3px] rounded-t-[20px]"
-          style={{ background: `linear-gradient(90deg, ${route.color}, ${route.color}99, #3b82f6)` }}
+          style={{ background: `linear-gradient(90deg, ${route.color}, ${route.color}99, #1e40af)` }}
         />
 
         {/* Decorative glow */}

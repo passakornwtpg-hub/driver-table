@@ -14,8 +14,8 @@ import { CHART_DATA, UTILIZATION_DATA } from "@/mock-data";
 import { TrendingUp, ChevronRight, BarChart2 } from "lucide-react";
 
 const BAR_COLORS = {
-  efficiency: "#2563eb",
-  trips:      "#3b82f6",
+  efficiency: "#1e3a8a",
+  trips:      "#1e40af",
   delay:      "#d97706",
 };
 
@@ -73,7 +73,7 @@ export function FleetChart() {
         {/* gradient line */}
         <div
           className="absolute inset-x-0 top-0 h-[3px] rounded-t-2xl"
-          style={{ background: "linear-gradient(90deg, #3b82f6, #2563eb, #d97706)" }}
+          style={{ background: "linear-gradient(90deg, #1e40af, #1e3a8a, #d97706)" }}
         />
         <div
           className="w-5 h-5 rounded-md flex items-center justify-center flex-shrink-0"
@@ -116,7 +116,7 @@ export function FleetChart() {
       {/* Decorative top gradient bar */}
       <div
         className="absolute inset-x-0 top-0 h-[3px] rounded-t-2xl"
-        style={{ background: "linear-gradient(90deg, #3b82f6, #2563eb, #d97706)" }}
+        style={{ background: "linear-gradient(90deg, #1e40af, #1e3a8a, #d97706)" }}
       />
 
       {/* Header */}
@@ -191,7 +191,7 @@ export function FleetChart() {
           className="relative inline-flex h-4 w-7 items-center rounded-full transition-all duration-300 focus:outline-none"
           style={{
             background: pilten
-              ? "linear-gradient(135deg, #2563eb, #3b82f6)"
+              ? "linear-gradient(135deg, #1e3a8a, #1e40af)"
               : "#e2e8f0",
             boxShadow: pilten ? "0 2px 8px rgba(37,99,235,0.35), inset 0 1px 0 rgba(255,255,255,0.2)" : "none",
           }}

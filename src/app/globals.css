@@ -2,9 +2,9 @@
 
 /* ── Design tokens ─────────────────────────────────────── */
 :root {
-  --brand:       #2563eb;
-  --brand-light: #3b82f6;
-  --brand-glow:  rgba(37, 99, 235, 0.25);
+  --brand:       #1e3a8a; /* Darker, more mature blue */
+  --brand-light: #1e40af;
+  --brand-glow:  rgba(30, 58, 138, 0.25);
   --navy:        #0f172a;
   --navy-mid:    #1e293b;
   --navy-light:  #334155;
@@ -14,8 +14,8 @@
   --shadow-md:   0 4px 16px rgba(15,23,42,0.12), 0 2px 6px rgba(15,23,42,0.09);
   --shadow-lg:   0 8px 32px rgba(15,23,42,0.18), 0 4px 12px rgba(15,23,42,0.10);
   --shadow-xl:   0 20px 60px rgba(15,23,42,0.22), 0 8px 24px rgba(15,23,42,0.12);
-  --shadow-brand:0 4px 20px rgba(37, 99, 235, 0.22);
-  --shadow-glow: 0 0 0 3px rgba(37, 99, 235, 0.12), 0 4px 20px rgba(37, 99, 235, 0.18);
+  --shadow-brand:0 4px 20px rgba(30, 58, 138, 0.22);
+  --shadow-glow: 0 0 0 3px rgba(30, 58, 138, 0.12), 0 4px 20px rgba(30, 58, 138, 0.18);
 }
 
 * { box-sizing: border-box; }

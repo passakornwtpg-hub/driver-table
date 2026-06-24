@@ -6,7 +6,7 @@ export function cn(...inputs: ClassValue[]) {
 }
 
 const AVATAR_COLORS = [
-  "#e8590c", "#3b82f6", "#16a34a", "#8b5cf6",
+  "#e8590c", "#1e40af", "#16a34a", "#8b5cf6",
   "#f59e0b", "#06b6d4", "#ec4899", "#64748b",
   "#ef4444", "#10b981",
 ];

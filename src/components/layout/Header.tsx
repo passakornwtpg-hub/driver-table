@@ -14,7 +14,7 @@ export function Header() {
       {/* Subtle top gradient line */}
       <div
         className="absolute inset-x-0 top-0 h-[2px] rounded-none"
-        style={{ background: "linear-gradient(90deg, #2563eb 0%, #3b82f6 40%, #475569 70%, #0f172a 100%)" }}
+        style={{ background: "linear-gradient(90deg, #1e3a8a 0%, #1e40af 40%, #475569 70%, #0f172a 100%)" }}
       />
 
       <div>
@@ -35,11 +35,11 @@ export function Header() {
       <div className="flex items-center gap-2 md:gap-3">
         {/* Search — hidden on mobile */}
         <div className="relative group hidden md:block">
-          <Search className="w-3.5 h-3.5 text-gray-400 group-focus-within:text-[#2563eb] absolute left-2.5 top-1/2 -translate-y-1/2 transition-colors" />
+          <Search className="w-3.5 h-3.5 text-gray-400 group-focus-within:text-[#1e3a8a] absolute left-2.5 top-1/2 -translate-y-1/2 transition-colors" />
           <input
             type="text"
             placeholder="ค้นหา..."
-            className="pl-8 pr-3 py-1.5 text-xs border border-gray-200 rounded-lg outline-none w-40 transition-all duration-200 focus:border-[#2563eb] focus:ring-2 focus:ring-blue-100"
+            className="pl-8 pr-3 py-1.5 text-xs border border-gray-200 rounded-lg outline-none w-40 transition-all duration-200 focus:border-[#1e3a8a] focus:ring-2 focus:ring-blue-100"
             style={{ background: "rgba(248,249,252,0.8)" }}
           />
         </div>

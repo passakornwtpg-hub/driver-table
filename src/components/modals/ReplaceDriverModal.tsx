@@ -56,8 +56,8 @@ export function ReplaceDriverModal() {
         onClick={(e) => e.stopPropagation()}
       >
         {/* Banner label */}
-        <div className="bg-[#2563eb]/10 border-b border-[#2563eb]/20 px-4 py-2 flex items-center justify-between flex-shrink-0">
-          <span className="text-[11px] font-bold text-[#2563eb]">หน้าต่างป๊อปอัป</span>
+        <div className="bg-[#1e3a8a]/10 border-b border-[#1e3a8a]/20 px-4 py-2 flex items-center justify-between flex-shrink-0">
+          <span className="text-[11px] font-bold text-[#1e3a8a]">หน้าต่างป๊อปอัป</span>
           <button
             onClick={closeModal}
             className="p-1 rounded-lg hover:bg-gray-100 transition-colors text-gray-400"
@@ -87,7 +87,7 @@ export function ReplaceDriverModal() {
 
             {/* Arrow */}
             <div className="flex flex-col items-center gap-1">
-              <ArrowRight className="w-6 h-6 text-[#2563eb] animate-pulse" />
+              <ArrowRight className="w-6 h-6 text-[#1e3a8a] animate-pulse" />
               <span className="text-[9px] text-gray-400">แทนที่</span>
             </div>
 
@@ -102,7 +102,7 @@ export function ReplaceDriverModal() {
           {/* Description */}
           <div className="bg-gray-50 rounded-lg px-3 py-2 mb-4 text-[11px] text-gray-500">
             Assigning{" "}
-            <span className="font-semibold text-[#2563eb]">{reserve.name}</span>{" "}
+            <span className="font-semibold text-[#1e3a8a]">{reserve.name}</span>{" "}
             to Replace{" "}
             <span className="font-semibold">
               {driver.name} {driver.surname}
@@ -122,7 +122,7 @@ export function ReplaceDriverModal() {
               <select
                 value={reason}
                 onChange={(e) => setReason(e.target.value as LeaveReason)}
-                className="w-full text-[12px] border border-gray-200 rounded-lg px-3 py-2 outline-none focus:border-[#2563eb] bg-white"
+                className="w-full text-[12px] border border-gray-200 rounded-lg px-3 py-2 outline-none focus:border-[#1e3a8a] bg-white"
               >
                 {REASONS.map((r) => (
                   <option key={r} value={r}>{r}</option>
@@ -138,7 +138,7 @@ export function ReplaceDriverModal() {
                 type="date"
                 value={date}
                 onChange={(e) => setDate(e.target.value)}
-                className="w-full text-[12px] border border-gray-200 rounded-lg px-3 py-2 outline-none focus:border-[#2563eb]"
+                className="w-full text-[12px] border border-gray-200 rounded-lg px-3 py-2 outline-none focus:border-[#1e3a8a]"
               />
             </div>
 
@@ -148,7 +148,7 @@ export function ReplaceDriverModal() {
                 onChange={(e) => setNotes(e.target.value)}
                 placeholder={"Select a driver to be replaced.\n(P.S. Used to substitute driver)\nเลือกคนขับที่จะให้คนขับสำรองแทนที่\n(ปล: ใช้ในการให้คนขับแทนที่)"}
                 rows={4}
-                className="w-full text-[11px] border border-gray-200 rounded-lg px-3 py-2 outline-none focus:border-[#2563eb] resize-none text-gray-500"
+                className="w-full text-[11px] border border-gray-200 rounded-lg px-3 py-2 outline-none focus:border-[#1e3a8a] resize-none text-gray-500"
               />
             </div>
           </div>
@@ -161,9 +161,9 @@ export function ReplaceDriverModal() {
             disabled={!date}
             className={cn(
               "w-full text-white text-[14px] font-bold py-3.5 rounded-xl transition-all",
-              "bg-gradient-to-br from-[#2563eb] to-[#3b82f6]",
+              "bg-gradient-to-br from-[#1e3a8a] to-[#1e40af]",
               "hover:opacity-90 disabled:opacity-50 disabled:cursor-not-allowed",
-              "shadow-lg shadow-[#2563eb]/25 active:scale-[0.98]"
+              "shadow-lg shadow-[#1e3a8a]/25 active:scale-[0.98]"
             )}
           >
             ยืนยันการย้าย

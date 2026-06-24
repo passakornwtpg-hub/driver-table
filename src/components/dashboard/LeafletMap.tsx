@@ -6,7 +6,7 @@ import { useFleetStore } from "@/store/fleetStore";
 const ROUTES = [
   {
     id: "red",
-    color: "#dc2626", // Red
+    color: "#b91c1c", // Red
     label: "สายสีแดง (Line 1)",
     labelShort: "Red",
     points: [
@@ -36,7 +36,7 @@ const ROUTES = [
   },
   {
     id: "blue",
-    color: "#2563eb", // Blue
+    color: "#1e3a8a", // Blue
     label: "สายสีน้ำเงิน (Line 2)",
     labelShort: "Blue",
     points: [
@@ -65,7 +65,7 @@ const ROUTES = [
   },
   {
     id: "green",
-    color: "#16a34a", // Green
+    color: "#15803d", // Green
     label: "สายสีเขียว (Line 3)",
     labelShort: "Green",
     points: [

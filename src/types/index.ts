@@ -15,6 +15,12 @@ export interface Driver {
   capacity: number;
   status: DriverStatus;
   experience: number; // years
+  performance?: {
+    onTimeRate: number; // Percentage 0-100
+    avgDelay: number; // Minutes
+    rating: number; // 0-5
+    totalTrips: number;
+  };
 }
 
 export interface ReserveDriver {
