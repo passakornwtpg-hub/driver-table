@@ -111,7 +111,7 @@ export function NextDeparture({ routeId, color }: NextDepartureProps) {
               {String(countdown.seconds).padStart(2, "0")} วิ
             </span>
             
-            <span className="text-[9px] text-slate-500 whitespace-nowrap ml-1">
+            <span className="text-[9px] text-slate-500 whitespace-nowrap ml-1 truncate min-w-0">
               {currentDriver ? `(รอบของ: ${currentDriver.name})` : "(ไม่พบคนขับ)"}
             </span>
           </div>
