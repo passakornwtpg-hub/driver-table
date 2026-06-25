@@ -85,11 +85,11 @@ export function getEffectiveDriver(driver: Driver | null, date: Date = new Date(
 
   // If driver is recorded as on leave in the global state, update status
   const globalDriverState = state.drivers.find(d => d.id === driver.id);
-  if (globalDriverState && globalDriverState.status === "Leave") {
-     // We only return Leave status if there is NO active transfer covering it for today.
-     // In a real app, transferHistory 'date' might be a date range, but here it's a specific date.
-     return { ...driver, status: "Leave" };
-  }
-
-  return driver;
+  
+  // We only carry over the "Leave" status if we are looking at the exact date the leave was recorded.
+  // Otherwise, we assume they are back to "Active" on other days.
+  // Since we know they were replaced if activeTransfer exists, we only reach here if NO active transfer exists for this date.
+  // But wait! If they are globally on Leave, maybe they took leave but no reserve was assigned?
+  // In our app, assigning a reserve is mandatory to go on leave. So if there's no activeTransfer for this date, they are Active.
+  return { ...driver, status: "Active" };
 }
