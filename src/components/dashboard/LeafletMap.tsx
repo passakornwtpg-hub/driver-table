@@ -170,7 +170,8 @@ export function LeafletMap() {
         route: any, 
         progress: number, 
         speed: number, 
-        direction: number 
+        direction: number,
+        driverId: number | null
       }[] = [];
 
       ROUTES.forEach((route) => {
