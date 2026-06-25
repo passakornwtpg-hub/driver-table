@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import { Clock, AlarmClock } from "lucide-react";
 import { getNextDepartures, getMinutesUntilNext } from "@/mock-data/timetables";
+import { getDriverForTrip } from "@/lib/shiftRotation";
 import type { RouteId } from "@/types";
 
 interface NextDepartureProps {
@@ -11,11 +12,12 @@ interface NextDepartureProps {
 }
 
 export function NextDeparture({ routeId, color }: NextDepartureProps) {
-  const [departures, setDepartures] = useState<string[]>([]);
+  const [departures, setDepartures] = useState<{ time: string; tripIndex: number }[]>([]);
   const [countdown, setCountdown] = useState<{
     minutes: number;
     seconds: number;
     time: string;
+    tripIndex: number;
   } | null>(null);
   const [blink, setBlink] = useState(true);
 
@@ -52,6 +54,8 @@ export function NextDeparture({ routeId, color }: NextDepartureProps) {
   const warningColor = "#f59e0b";
 
   const badgeColor = isUrgent ? urgentColor : isWarning ? warningColor : color;
+
+  const currentDriver = countdown ? getDriverForTrip(routeId, countdown.tripIndex, new Date()) : null;
 
   return (
     <div className="mt-1">
@@ -106,6 +110,10 @@ export function NextDeparture({ routeId, color }: NextDepartureProps) {
             >
               {String(countdown.seconds).padStart(2, "0")} วิ
             </span>
+            
+            <span className="text-[9px] text-slate-500 whitespace-nowrap ml-1">
+              {currentDriver ? `(รอบของ: ${currentDriver.name})` : "(ไม่พบคนขับ)"}
+            </span>
           </div>
 
           {/* Next departure time badge */}
@@ -140,22 +148,27 @@ export function NextDeparture({ routeId, color }: NextDepartureProps) {
       {/* ── Upcoming departures row ── */}
       <div className="flex items-center gap-1 flex-wrap">
         <Clock className="w-2.5 h-2.5 flex-shrink-0 text-gray-400" />
-        <span className="text-[8px] text-gray-400">รอบถัดไป:</span>
-        {departures.length === 0 ? (
-          <span className="text-[8px] text-gray-400 italic">—</span>
+        {departures.length > 0 ? (
+          departures.map((dept, i) => {
+            const driver = getDriverForTrip(routeId, dept.tripIndex, new Date());
+            return (
+              <span
+                key={i}
+                className="text-[9px] px-1.5 py-0.5 rounded border flex items-center gap-1"
+                style={{
+                  background: "rgba(248,249,252,0.8)",
+                  borderColor: "rgba(148,163,184,0.2)",
+                  color: "#64748b",
+                }}
+                title={driver ? `รอบของ: ${driver.name} ${driver.surname}` : ""}
+              >
+                {dept.time}
+                {driver && <span className="text-slate-400 truncate max-w-[40px] hidden sm:inline-block"> {driver.name}</span>}
+              </span>
+            );
+          })
         ) : (
-          departures.map((t, i) => (
-            <span
-              key={t}
-              className="text-[8.5px] font-bold px-1.5 py-0.5 rounded tabular-nums"
-              style={{
-                backgroundColor: i === 0 ? color : `${color}1a`,
-                color: i === 0 ? "white" : color,
-              }}
-            >
-              {t}
-            </span>
-          ))
+          <span className="text-[9px] text-gray-400">ไม่มีรอบถัดไป</span>
         )}
       </div>
     </div>

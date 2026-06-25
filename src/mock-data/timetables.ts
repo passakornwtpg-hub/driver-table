@@ -95,7 +95,7 @@ export function getNextDepartures(
   routeId: string,
   now: Date = new Date(),
   count = 3
-): string[] {
+): { time: string; tripIndex: number }[] {
   const day = now.getDay(); // 0 = Sunday, 6 = Saturday
   const isWeekend = day === 0 || day === 6;
   const table = TIMETABLES[routeId];
@@ -105,15 +105,22 @@ export function getNextDepartures(
   const currentHour = now.getHours();
   const currentMinute = now.getMinutes();
 
-  const upcoming: string[] = [];
+  const upcoming: { time: string; tripIndex: number }[] = [];
+  let currentTripIndex = 0;
 
   for (const { hour, minutes } of schedule) {
-    if (hour < currentHour) continue;
     for (const min of minutes) {
       const minNum = parseInt(min, 10);
-      if (hour === currentHour && minNum <= currentMinute) continue;
-      upcoming.push(`${String(hour).padStart(2, "0")}:${min}`);
-      if (upcoming.length >= count) return upcoming;
+      const isPast = hour < currentHour || (hour === currentHour && minNum <= currentMinute);
+      
+      if (!isPast) {
+        upcoming.push({
+          time: `${String(hour).padStart(2, "0")}:${min}`,
+          tripIndex: currentTripIndex
+        });
+        if (upcoming.length >= count) return upcoming;
+      }
+      currentTripIndex++;
     }
   }
 
@@ -135,11 +142,12 @@ export function countDailyTrips(routeId: string): number {
 export function getMinutesUntilNext(
   routeId: string,
   now: Date = new Date()
-): { minutes: number; seconds: number; time: string } | null {
-  const [nextTime] = getNextDepartures(routeId, now, 1);
-  if (!nextTime) return null;
+): { minutes: number; seconds: number; time: string; tripIndex: number } | null {
+  const nextDepts = getNextDepartures(routeId, now, 1);
+  if (nextDepts.length === 0) return null;
+  const nextTimeObj = nextDepts[0];
 
-  const [hStr, mStr] = nextTime.split(":");
+  const [hStr, mStr] = nextTimeObj.time.split(":");
   const depHour   = parseInt(hStr, 10);
   const depMinute = parseInt(mStr, 10);
 
@@ -153,6 +161,7 @@ export function getMinutesUntilNext(
   return {
     minutes: Math.floor(totalSec / 60),
     seconds: totalSec % 60,
-    time: nextTime,
+    time: nextTimeObj.time,
+    tripIndex: nextTimeObj.tripIndex,
   };
 }
