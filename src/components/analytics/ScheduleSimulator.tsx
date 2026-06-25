@@ -4,12 +4,14 @@ import React, { useState, useMemo } from "react";
 import { ROUTES } from "@/mock-data";
 import { TIMETABLES } from "@/mock-data/timetables";
 import { getDriverForTrip } from "@/lib/shiftRotation";
-import { Calendar as CalendarIcon, Clock, CalendarDays } from "lucide-react";
+import { Calendar as CalendarIcon, Clock, CalendarDays, Settings2 } from "lucide-react";
 import type { RouteId } from "@/types";
+import { RotationConfigModal } from "./RotationConfigModal";
 
 export function ScheduleSimulator() {
   const [activeRoute, setActiveRoute] = useState<RouteId>("L1");
   const [selectedDate, setSelectedDate] = useState<Date>(new Date());
+  const [configModalOpen, setConfigModalOpen] = useState(false);
 
   const route = ROUTES.find((r) => r.id === activeRoute)!;
   const table = TIMETABLES[activeRoute];
@@ -49,15 +51,25 @@ export function ScheduleSimulator() {
     d1.getDate() === d2.getDate();
 
   return (
-    <div className="bg-white p-5 md:p-6 rounded-2xl shadow-sm border border-slate-100 mt-6">
-      <div className="flex items-center gap-2 mb-6">
-        <div className="w-10 h-10 rounded-xl bg-indigo-50 flex items-center justify-center text-indigo-600">
-          <CalendarDays className="w-5 h-5" />
+    <div className="bg-white p-5 md:p-6 rounded-2xl shadow-sm border border-slate-100 mt-6 relative">
+      <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-6">
+        <div className="flex items-center gap-2">
+          <div className="w-10 h-10 rounded-xl bg-indigo-50 flex items-center justify-center text-indigo-600">
+            <CalendarDays className="w-5 h-5" />
+          </div>
+          <div>
+            <h2 className="text-lg font-bold text-slate-800">จำลองตารางเวรคนขับล่วงหน้า</h2>
+            <p className="text-sm text-slate-500">ตรวจสอบคิวคนขับตามรอบเวลาของแต่ละวัน</p>
+          </div>
         </div>
-        <div>
-          <h2 className="text-lg font-bold text-slate-800">จำลองตารางเวรคนขับล่วงหน้า</h2>
-          <p className="text-sm text-slate-500">ตรวจสอบคิวคนขับตามรอบเวลาของแต่ละวัน</p>
-        </div>
+        
+        <button
+          onClick={() => setConfigModalOpen(true)}
+          className="flex items-center justify-center gap-2 px-4 py-2 rounded-xl text-sm font-bold text-slate-600 hover:text-indigo-600 hover:bg-indigo-50 border border-slate-200 transition-all shadow-sm hover:shadow"
+        >
+          <Settings2 className="w-4 h-4" />
+          ตั้งค่าคิวเดินรถ
+        </button>
       </div>
 
       {/* Date Selection Area */}
@@ -242,6 +254,12 @@ export function ScheduleSimulator() {
           </div>
         )}
       </div>
+
+      <RotationConfigModal 
+        open={configModalOpen} 
+        onClose={() => setConfigModalOpen(false)} 
+        initialRoute={activeRoute}
+      />
     </div>
   );
 }

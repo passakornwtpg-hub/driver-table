@@ -1,7 +1,7 @@
 "use client";
 
 import { create } from "zustand";
-import type { Driver, ReserveDriver, Route, TransferRecord, LeaveReason } from "@/types";
+import type { Driver, ReserveDriver, Route, TransferRecord, LeaveReason, RouteRotationConfig, RouteId } from "@/types";
 import { DRIVERS, RESERVE_DRIVERS, ROUTES } from "@/mock-data";
 
 interface FleetState {
@@ -34,6 +34,9 @@ interface FleetState {
   toggleMapOnly: () => void;
   focusDriverId: number | null;
   setFocusDriverId: (id: number | null) => void;
+  
+  rotationConfigs: Record<string, RouteRotationConfig>;
+  setRotationConfig: (routeId: RouteId, config: RouteRotationConfig) => void;
 }
 
 export const useFleetStore = create<FleetState>((set, get) => ({
@@ -49,14 +52,18 @@ export const useFleetStore = create<FleetState>((set, get) => ({
   searchQuery: "",
   toast: { message: "", visible: false },
   panelsCollapsed: false,
-
   mapOnly: false,
+  rotationConfigs: {},
 
   setSelectedReserve: (reserve) => set({ selectedReserve: reserve }),
 
   openModal: (driverId) => set({ pendingDriverId: driverId, modalOpen: true }),
 
   closeModal: () => set({ modalOpen: false, pendingDriverId: null }),
+  
+  setRotationConfig: (routeId, config) => set((s) => ({
+    rotationConfigs: { ...s.rotationConfigs, [routeId]: config }
+  })),
 
   confirmTransfer: (reason, date, notes) => {
     const { pendingDriverId, selectedReserve, drivers, reserveDrivers, transferHistory } = get();

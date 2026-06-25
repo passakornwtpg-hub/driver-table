@@ -85,3 +85,9 @@ export interface RouteTimetable {
   weekday: TimetableHourRow[];
   weekend: TimetableHourRow[];
 }
+
+export interface RouteRotationConfig {
+  routeId: RouteId;
+  startDate: string; // ISO string e.g. "2026-06-25"
+  driverIds: number[]; // Ordered sequence
+}
