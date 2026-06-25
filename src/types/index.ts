@@ -1,4 +1,4 @@
-export type DriverStatus = "Active" | "Leave" | "Assigned";
+export type DriverStatus = "Active" | "Leave" | "Assigned" | "Substitute";
 export type RouteId = "L1" | "L2" | "L3";
 export type LeaveReason = "Sick Leave" | "Vacation" | "Emergency" | "Training";
 export type DayType = "weekday" | "weekend";

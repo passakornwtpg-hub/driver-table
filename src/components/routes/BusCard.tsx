@@ -14,6 +14,7 @@ interface BusCardProps {
 
 export function BusCard({ driver, routeColor, expanded }: BusCardProps) {
   const isLeave = driver.status === "Leave";
+  const isSubstitute = driver.status === "Substitute";
   const { setFocusDriverId } = useFleetStore();
 
   /* ─── EXPANDED: horizontal list-row style ─── */
@@ -28,25 +29,27 @@ export function BusCard({ driver, routeColor, expanded }: BusCardProps) {
         style={{
           background: isLeave
             ? "rgba(248,249,252,0.6)"
+            : isSubstitute
+            ? `${routeColor}10`
             : "linear-gradient(135deg, rgba(255,255,255,0.9), rgba(248,249,252,0.8))",
-          border: "1px solid rgba(26,26,46,0.07)",
-          boxShadow: "0 1px 4px rgba(26,26,46,0.05)",
+          border: `1px solid ${isSubstitute ? `${routeColor}30` : "rgba(26,26,46,0.07)"}`,
+          boxShadow: isSubstitute ? `0 1px 4px ${routeColor}10` : "0 1px 4px rgba(26,26,46,0.05)",
         }}
-        title={`${driver.name} ${driver.surname} (${driver.code}) — ${driver.vehicle}`}
+        title={`${driver.name} ${driver.surname} (${driver.code}) — ${driver.vehicle}${isSubstitute ? ' (ตัวแทน)' : ''}`}
         onMouseEnter={(e) => {
           if (!isLeave) {
             const el = e.currentTarget as HTMLDivElement;
-            el.style.background = `linear-gradient(135deg, rgba(255,255,255,1), ${routeColor}06)`;
-            el.style.borderColor = `${routeColor}30`;
-            el.style.boxShadow = `0 2px 8px ${routeColor}15`;
+            el.style.background = isSubstitute ? `${routeColor}20` : `linear-gradient(135deg, rgba(255,255,255,1), ${routeColor}06)`;
+            el.style.borderColor = `${routeColor}40`;
+            el.style.boxShadow = `0 2px 8px ${routeColor}20`;
           }
         }}
         onMouseLeave={(e) => {
           if (!isLeave) {
             const el = e.currentTarget as HTMLDivElement;
-            el.style.background = "linear-gradient(135deg, rgba(255,255,255,0.9), rgba(248,249,252,0.8))";
-            el.style.borderColor = "rgba(26,26,46,0.07)";
-            el.style.boxShadow = "0 1px 4px rgba(26,26,46,0.05)";
+            el.style.background = isSubstitute ? `${routeColor}10` : "linear-gradient(135deg, rgba(255,255,255,0.9), rgba(248,249,252,0.8))";
+            el.style.borderColor = isSubstitute ? `${routeColor}30` : "rgba(26,26,46,0.07)";
+            el.style.boxShadow = isSubstitute ? `0 1px 4px ${routeColor}10` : "0 1px 4px rgba(26,26,46,0.05)";
           }
         }}
       >
@@ -82,7 +85,7 @@ export function BusCard({ driver, routeColor, expanded }: BusCardProps) {
     );
   }
 
-  /* ─── NORMAL: compact card (unchanged) ─── */
+  /* ─── NORMAL: compact card (unchanged mostly, with substitute support) ─── */
   return (
     <div
       onClick={() => !isLeave && setFocusDriverId(driver.id)}
@@ -98,27 +101,35 @@ export function BusCard({ driver, routeColor, expanded }: BusCardProps) {
               border: "1px solid rgba(26,26,46,0.07)",
               boxShadow: "0 1px 3px rgba(26,26,46,0.05)",
             }
+          : isSubstitute
+          ? {
+              background: `${routeColor}10`,
+              border: `1px solid ${routeColor}30`,
+              boxShadow: `0 1px 4px ${routeColor}10`,
+            }
           : {
               background: "linear-gradient(135deg, rgba(255,255,255,0.95), rgba(248,249,252,0.9))",
               border: "1px solid rgba(255,255,255,0.9)",
               boxShadow: "0 2px 6px rgba(26,26,46,0.07), inset 0 1px 0 rgba(255,255,255,1)",
             }
       }
-      title={`${driver.name} ${driver.surname} (${driver.code}) — ${driver.vehicle}`}
+      title={`${driver.name} ${driver.surname} (${driver.code}) — ${driver.vehicle}${isSubstitute ? ' (ตัวแทน)' : ''}`}
       onMouseEnter={(e) => {
         if (!isLeave) {
           const el = e.currentTarget as HTMLDivElement;
           el.style.transform = "translateY(-2px)";
           el.style.boxShadow = `0 6px 16px ${routeColor}25, 0 2px 6px rgba(26,26,46,0.1), inset 0 1px 0 rgba(255,255,255,1)`;
           el.style.border = `1px solid ${routeColor}40`;
+          if (isSubstitute) el.style.background = `${routeColor}20`;
         }
       }}
       onMouseLeave={(e) => {
         if (!isLeave) {
           const el = e.currentTarget as HTMLDivElement;
           el.style.transform = "translateY(0)";
-          el.style.boxShadow = "0 2px 6px rgba(26,26,46,0.07), inset 0 1px 0 rgba(255,255,255,1)";
-          el.style.border = "1px solid rgba(255,255,255,0.9)";
+          el.style.boxShadow = isSubstitute ? `0 1px 4px ${routeColor}10` : "0 2px 6px rgba(26,26,46,0.07), inset 0 1px 0 rgba(255,255,255,1)";
+          el.style.border = isSubstitute ? `1px solid ${routeColor}30` : "1px solid rgba(255,255,255,0.9)";
+          if (isSubstitute) el.style.background = `${routeColor}10`;
         }
       }}
     >
@@ -140,6 +151,11 @@ export function BusCard({ driver, routeColor, expanded }: BusCardProps) {
       {isLeave && (
         <p className="text-[6px] text-center font-bold relative z-10" style={{ color: "#dc2626" }}>
           LEAVE
+        </p>
+      )}
+      {isSubstitute && (
+        <p className="text-[6px] text-center font-bold relative z-10 mt-0.5" style={{ color: routeColor }}>
+          ตัวแทน
         </p>
       )}
     </div>

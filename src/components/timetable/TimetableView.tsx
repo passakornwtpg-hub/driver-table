@@ -215,13 +215,14 @@ export function TimetableView({ open, onClose, initialRoute = "L1" }: TimetableV
                       {minutes.map(({ m, tripIndex }) => {
                         const driver = getDriverForTrip(activeRoute, tripIndex);
                         const isLeave = driver?.status === "Leave";
+                        const isSubstitute = driver?.status === "Substitute";
                         return (
                           <div
                             key={m}
                             className="flex flex-col items-center justify-center rounded px-2 py-1 transition-all duration-150 cursor-pointer"
                             style={{
-                              background: "white",
-                              border: `1px solid ${route.color}25`,
+                              background: isSubstitute ? `${route.color}15` : "white",
+                              border: `1px solid ${isSubstitute ? `${route.color}30` : `${route.color}25`}`,
                               boxShadow: `0 1px 3px rgba(26,26,46,0.07)`,
                             }}
                             onMouseEnter={(e) => {
@@ -233,22 +234,22 @@ export function TimetableView({ open, onClose, initialRoute = "L1" }: TimetableV
                               spans.forEach(span => span.style.color = "white");
                             }}
                             onMouseLeave={(e) => {
-                              (e.currentTarget as HTMLDivElement).style.background = "white";
+                              (e.currentTarget as HTMLDivElement).style.background = isSubstitute ? `${route.color}15` : "white";
                               (e.currentTarget as HTMLDivElement).style.color = "#374151";
                               (e.currentTarget as HTMLDivElement).style.boxShadow = "0 1px 3px rgba(26,26,46,0.07)";
                               // revert inner spans
                               const spans = e.currentTarget.querySelectorAll('span');
                               if (spans.length > 1) {
-                                spans[0].style.color = "#374151"; // time
-                                spans[1].style.color = isLeave ? "#ef4444" : "#6b7280"; // name
+                                spans[0].style.color = isSubstitute ? route.color : "#374151"; // time
+                                spans[1].style.color = isLeave ? "#ef4444" : (isSubstitute ? route.color : "#6b7280"); // name
                               }
                             }}
-                            title={driver ? `Driver: ${driver.name} ${driver.surname} (${driver.code})` : "No driver assigned"}
+                            title={driver ? `Driver: ${driver.name} ${driver.surname} (${driver.code})${isSubstitute ? ' (ตัวแทน)' : ''}` : "No driver assigned"}
                           >
-                            <span className="text-[12px] font-bold" style={{ color: "#374151", transition: "color 0.15s" }}>
+                            <span className="text-[12px] font-bold" style={{ color: isSubstitute ? route.color : "#374151", transition: "color 0.15s" }}>
                               {m}
                             </span>
-                            <span className="text-[9px] font-medium truncate max-w-[45px]" style={{ color: isLeave ? "#ef4444" : "#6b7280", transition: "color 0.15s" }}>
+                            <span className="text-[9px] font-medium truncate max-w-[45px]" style={{ color: isLeave ? "#ef4444" : (isSubstitute ? route.color : "#6b7280"), transition: "color 0.15s" }}>
                               {driver ? (isLeave ? "Leave" : driver.name) : "-"}
                             </span>
                           </div>

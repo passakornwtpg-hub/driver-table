@@ -220,28 +220,29 @@ export function ScheduleSimulator() {
                     {minutes.map(({ m, tripIndex }) => {
                       const driver = getDriverForTrip(activeRoute, tripIndex, selectedDate);
                       const isLeave = driver?.status === "Leave";
+                      const isSubstitute = driver?.status === "Substitute";
                       return (
                         <div
                           key={m}
                           className="flex flex-col items-center justify-center rounded-lg px-3 py-1.5 transition-all duration-200 cursor-default"
                           style={{
-                            background: "rgba(248,249,252,0.8)",
-                            border: `1px solid rgba(26,26,46,0.05)`,
+                            background: isSubstitute ? `${route.color}15` : "rgba(248,249,252,0.8)",
+                            border: `1px solid ${isSubstitute ? `${route.color}30` : "rgba(26,26,46,0.05)"}`,
                           }}
                           onMouseEnter={(e) => {
-                            (e.currentTarget as HTMLDivElement).style.background = `${route.color}08`;
-                            (e.currentTarget as HTMLDivElement).style.borderColor = `${route.color}20`;
+                            (e.currentTarget as HTMLDivElement).style.background = isSubstitute ? `${route.color}25` : `${route.color}08`;
+                            (e.currentTarget as HTMLDivElement).style.borderColor = `${route.color}40`;
                           }}
                           onMouseLeave={(e) => {
-                            (e.currentTarget as HTMLDivElement).style.background = "rgba(248,249,252,0.8)";
-                            (e.currentTarget as HTMLDivElement).style.borderColor = "rgba(26,26,46,0.05)";
+                            (e.currentTarget as HTMLDivElement).style.background = isSubstitute ? `${route.color}15` : "rgba(248,249,252,0.8)";
+                            (e.currentTarget as HTMLDivElement).style.borderColor = isSubstitute ? `${route.color}30` : "rgba(26,26,46,0.05)";
                           }}
-                          title={driver ? `Driver: ${driver.name} ${driver.surname} (${driver.code})` : "No driver assigned"}
+                          title={driver ? `Driver: ${driver.name} ${driver.surname} (${driver.code})${isSubstitute ? ' (ตัวแทน)' : ''}` : "No driver assigned"}
                         >
-                          <span className="text-[14px] font-bold text-slate-700">
+                          <span className="text-[14px] font-bold text-slate-700" style={{ color: isSubstitute ? route.color : undefined }}>
                             {m}
                           </span>
-                          <span className="text-[11px] font-medium truncate max-w-[60px] mt-0.5" style={{ color: isLeave ? "#ef4444" : "#64748b" }}>
+                          <span className="text-[11px] font-medium truncate max-w-[60px] mt-0.5" style={{ color: isLeave ? "#ef4444" : (isSubstitute ? route.color : "#64748b") }}>
                             {driver ? (isLeave ? "Leave" : driver.name) : "-"}
                           </span>
                         </div>

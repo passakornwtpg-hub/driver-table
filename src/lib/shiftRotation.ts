@@ -75,10 +75,10 @@ export function getEffectiveDriver(driver: Driver | null, date: Date = new Date(
     if (reserve) {
       return {
         ...driver,
-        name: `${reserve.name} (แทน ${driver.name})`,
+        name: reserve.name, // Just use the reserve's name
         surname: "",
         code: reserve.id,
-        status: "Active", // The substitute is active for this trip
+        status: "Substitute", // Custom status to identify substitutes in UI
       };
     }
   }

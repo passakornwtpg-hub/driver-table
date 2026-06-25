@@ -10,6 +10,7 @@ const STATUS_STYLES: Record<DriverStatus, string> = {
   Active: "bg-green-100 text-green-700",
   Leave: "bg-red-100 text-red-600",
   Assigned: "bg-blue-100 text-blue-700",
+  Substitute: "bg-indigo-100 text-indigo-700",
 };
 
 export function StatusBadge({ status, className }: StatusBadgeProps) {
