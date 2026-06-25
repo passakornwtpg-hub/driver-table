@@ -32,6 +32,8 @@ export function ScheduleSimulator() {
     return dates;
   }, []);
 
+  const datePickerRef = React.useRef<HTMLInputElement>(null);
+
   const handleDateChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.value) {
       const newDate = new Date(e.target.value);
@@ -98,18 +100,31 @@ export function ScheduleSimulator() {
             // Pad month and date with 0 for YYYY-MM-DD
             value={`${selectedDate.getFullYear()}-${String(selectedDate.getMonth() + 1).padStart(2, '0')}-${String(selectedDate.getDate()).padStart(2, '0')}`}
             onChange={handleDateChange}
-            className="absolute inset-0 w-full h-full opacity-0 cursor-pointer"
-            style={{ zIndex: 10 }}
+            className="absolute inset-0 w-0 h-0 opacity-0 pointer-events-none"
+            ref={datePickerRef}
           />
-          <button className="w-full md:w-auto flex items-center justify-center gap-2 px-4 h-16 rounded-xl border transition-all duration-200 hover:bg-slate-50"
+          <button 
+            className="w-full md:w-auto flex items-center justify-center gap-2 px-4 h-16 rounded-xl border transition-all duration-200 hover:bg-slate-50 cursor-pointer"
+            onClick={() => {
+              try {
+                if (datePickerRef.current) {
+                  datePickerRef.current.showPicker();
+                }
+              } catch (e) {
+                // Fallback for browsers that don't support showPicker
+                if (datePickerRef.current) {
+                  datePickerRef.current.focus();
+                }
+              }
+            }}
             style={{
               background: "white",
               borderColor: "rgba(26,26,46,0.08)",
               color: "#475569"
             }}
           >
-            <CalendarIcon className="w-5 h-5 text-indigo-500" />
-            <div className="text-left">
+            <CalendarIcon className="w-5 h-5 text-indigo-500 pointer-events-none" />
+            <div className="text-left pointer-events-none">
               <span className="block text-[10px] font-medium text-slate-400">เลือกวันที่อื่น</span>
               <span className="block text-sm font-bold text-slate-700">
                 {selectedDate.toLocaleDateString('th-TH', { year: 'numeric', month: 'short', day: 'numeric' })}
