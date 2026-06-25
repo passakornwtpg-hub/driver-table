@@ -4,6 +4,7 @@ import { useState } from "react";
 import { X, Calendar, Clock } from "lucide-react";
 import { TIMETABLES } from "@/mock-data/timetables";
 import { ROUTES } from "@/mock-data";
+import { getDriverForTrip } from "@/lib/shiftRotation";
 import { cn } from "@/lib/utils";
 import type { RouteId, DayType } from "@/types";
 
@@ -182,55 +183,84 @@ export function TimetableView({ open, onClose, initialRoute = "L1" }: TimetableV
             <p className="text-center text-[12px] text-gray-400 py-10">ไม่มีรอบวิ่งในวันนี้</p>
           ) : (
             <div className="space-y-1.5">
-              {rows.map(({ hour, minutes }) => (
-                <div key={hour} className="flex items-stretch gap-2">
-                  <div
-                    className="w-10 flex-shrink-0 rounded-lg flex items-center justify-center text-white text-[12px] font-bold"
-                    style={{
-                      background: `linear-gradient(135deg, ${route.color}, ${route.color}cc)`,
-                      boxShadow: `0 2px 8px ${route.color}40, inset 0 1px 0 rgba(255,255,255,0.2)`,
-                    }}
-                  >
-                    {hour}
+              {(() => {
+                let currentTripIndex = 0;
+                const flattenedRows = rows.map(row => ({
+                  hour: row.hour,
+                  minutes: row.minutes.map(m => ({
+                    m,
+                    tripIndex: currentTripIndex++
+                  }))
+                }));
+
+                return flattenedRows.map(({ hour, minutes }) => (
+                  <div key={hour} className="flex items-stretch gap-2">
+                    <div
+                      className="w-10 flex-shrink-0 rounded-lg flex items-center justify-center text-white text-[12px] font-bold"
+                      style={{
+                        background: `linear-gradient(135deg, ${route.color}, ${route.color}cc)`,
+                        boxShadow: `0 2px 8px ${route.color}40, inset 0 1px 0 rgba(255,255,255,0.2)`,
+                      }}
+                    >
+                      {hour}
+                    </div>
+                    <div
+                      className="flex-1 flex flex-wrap items-center gap-1.5 rounded-lg px-2 py-1.5"
+                      style={{
+                        background: "linear-gradient(135deg, rgba(255,255,255,0.9), rgba(248,249,252,0.8))",
+                        border: "1px solid rgba(26,26,46,0.06)",
+                        boxShadow: "inset 0 1px 0 rgba(255,255,255,1)",
+                      }}
+                    >
+                      {minutes.map(({ m, tripIndex }) => {
+                        const driver = getDriverForTrip(activeRoute, tripIndex);
+                        const isLeave = driver?.status === "Leave";
+                        return (
+                          <div
+                            key={m}
+                            className="flex flex-col items-center justify-center rounded px-2 py-1 transition-all duration-150 cursor-pointer"
+                            style={{
+                              background: "white",
+                              border: `1px solid ${route.color}25`,
+                              boxShadow: `0 1px 3px rgba(26,26,46,0.07)`,
+                            }}
+                            onMouseEnter={(e) => {
+                              (e.currentTarget as HTMLDivElement).style.background = route.color;
+                              (e.currentTarget as HTMLDivElement).style.color = "white";
+                              (e.currentTarget as HTMLDivElement).style.boxShadow = `0 2px 8px ${route.color}50`;
+                              // also change inner spans
+                              const spans = e.currentTarget.querySelectorAll('span');
+                              spans.forEach(span => span.style.color = "white");
+                            }}
+                            onMouseLeave={(e) => {
+                              (e.currentTarget as HTMLDivElement).style.background = "white";
+                              (e.currentTarget as HTMLDivElement).style.color = "#374151";
+                              (e.currentTarget as HTMLDivElement).style.boxShadow = "0 1px 3px rgba(26,26,46,0.07)";
+                              // revert inner spans
+                              const spans = e.currentTarget.querySelectorAll('span');
+                              if (spans.length > 1) {
+                                spans[0].style.color = "#374151"; // time
+                                spans[1].style.color = isLeave ? "#ef4444" : "#6b7280"; // name
+                              }
+                            }}
+                            title={driver ? `Driver: ${driver.name} ${driver.surname} (${driver.code})` : "No driver assigned"}
+                          >
+                            <span className="text-[12px] font-bold" style={{ color: "#374151", transition: "color 0.15s" }}>
+                              {m}
+                            </span>
+                            <span className="text-[9px] font-medium truncate max-w-[45px]" style={{ color: isLeave ? "#ef4444" : "#6b7280", transition: "color 0.15s" }}>
+                              {driver ? (isLeave ? "Leave" : driver.name) : "-"}
+                            </span>
+                          </div>
+                        );
+                      })}
+                    </div>
                   </div>
-                  <div
-                    className="flex-1 flex flex-wrap items-center gap-1.5 rounded-lg px-2 py-1.5"
-                    style={{
-                      background: "linear-gradient(135deg, rgba(255,255,255,0.9), rgba(248,249,252,0.8))",
-                      border: "1px solid rgba(26,26,46,0.06)",
-                      boxShadow: "inset 0 1px 0 rgba(255,255,255,1)",
-                    }}
-                  >
-                    {minutes.map((m) => (
-                      <span
-                        key={m}
-                        className="text-[11px] font-semibold rounded px-1.5 py-0.5 transition-all duration-150"
-                        style={{
-                          background: "white",
-                          color: "#374151",
-                          border: `1px solid ${route.color}25`,
-                          boxShadow: `0 1px 3px rgba(26,26,46,0.07)`,
-                        }}
-                        onMouseEnter={(e) => {
-                          (e.currentTarget as HTMLSpanElement).style.background = route.color;
-                          (e.currentTarget as HTMLSpanElement).style.color = "white";
-                          (e.currentTarget as HTMLSpanElement).style.boxShadow = `0 2px 8px ${route.color}50`;
-                        }}
-                        onMouseLeave={(e) => {
-                          (e.currentTarget as HTMLSpanElement).style.background = "white";
-                          (e.currentTarget as HTMLSpanElement).style.color = "#374151";
-                          (e.currentTarget as HTMLSpanElement).style.boxShadow = "0 1px 3px rgba(26,26,46,0.07)";
-                        }}
-                      >
-                        {m}
-                      </span>
-                    ))}
-                  </div>
-                </div>
-              ))}
+                ));
+              })()}
             </div>
           )}
-          <p className="text-[9px] text-gray-400 mt-4 text-center">นาที / mins.</p>
+          <p className="text-[9px] text-gray-400 mt-4 text-center">เวลาออกรถ และชื่อคนขับประจำรอบ (หมุนเวียนคิวทุกวัน)</p>
         </div>
       </div>
     </div>

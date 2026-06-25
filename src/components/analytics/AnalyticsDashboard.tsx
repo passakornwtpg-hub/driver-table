@@ -13,6 +13,7 @@ import {
 } from "recharts";
 import { TrendingUp, Clock, Bus, Activity } from "lucide-react";
 import { CHART_DATA, ROUTES } from "@/mock-data";
+import { ScheduleSimulator } from "./ScheduleSimulator";
 
 const BAR_COLORS = {
   efficiency: "#1e40af", // Blue
@@ -143,6 +144,9 @@ export function AnalyticsDashboard() {
           </table>
         </div>
       </div>
+
+      {/* Schedule Simulator Section */}
+      <ScheduleSimulator />
     </div>
   );
 }
