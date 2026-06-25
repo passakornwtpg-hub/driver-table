@@ -8,15 +8,17 @@ import type { RouteId } from "@/types";
 import { CalendarClock, Activity, Maximize } from "lucide-react";
 import { PanelToggleButton } from "@/components/ui/PanelToggleButton";
 
+import { getEffectiveDriver } from "@/lib/shiftRotation";
+
 export function RouteOverviewPanel() {
   const { routes, drivers, panelsCollapsed, mapOnly, toggleMapOnly } = useFleetStore();
   const [timetableOpen, setTimetableOpen] = useState(false);
   const [timetableRoute, setTimetableRoute] = useState<RouteId>("L1");
 
   const byRoute: Record<string, typeof drivers> = {
-    L1: drivers.filter((d) => d.routeId === "L1"),
-    L2: drivers.filter((d) => d.routeId === "L2"),
-    L3: drivers.filter((d) => d.routeId === "L3"),
+    L1: drivers.filter((d) => d.routeId === "L1").map((d) => getEffectiveDriver(d) || d),
+    L2: drivers.filter((d) => d.routeId === "L2").map((d) => getEffectiveDriver(d) || d),
+    L3: drivers.filter((d) => d.routeId === "L3").map((d) => getEffectiveDriver(d) || d),
   };
 
   const totalActive = drivers.filter((d) => d.status !== "Leave").length;

@@ -51,5 +51,45 @@ export function getDriverForTrip(routeId: string, tripIndex: number, date: Date 
     driverIdToFind = routeDrivers[driverIndex].id;
   }
 
-  return routeDrivers.find(d => d.id === driverIdToFind) || null;
+  const originalDriver = routeDrivers.find(d => d.id === driverIdToFind) || null;
+  return getEffectiveDriver(originalDriver, date);
+}
+
+/**
+ * Checks if the given driver has an active transfer on the specified date
+ * and returns a modified Driver object representing the substitute.
+ */
+export function getEffectiveDriver(driver: Driver | null, date: Date = new Date()): Driver | null {
+  if (!driver) return null;
+
+  const state = useFleetStore.getState();
+  const dateStr = date.toISOString().split("T")[0];
+
+  // Find if this driver is replaced today
+  const activeTransfer = state.transferHistory.find(
+    tr => tr.originalDriverId === driver.id && tr.date === dateStr
+  );
+
+  if (activeTransfer) {
+    const reserve = state.reserveDrivers.find(r => r.id === activeTransfer.reserveDriverId);
+    if (reserve) {
+      return {
+        ...driver,
+        name: `${reserve.name} (แทน ${driver.name})`,
+        surname: "",
+        code: reserve.id,
+        status: "Active", // The substitute is active for this trip
+      };
+    }
+  }
+
+  // If driver is recorded as on leave in the global state, update status
+  const globalDriverState = state.drivers.find(d => d.id === driver.id);
+  if (globalDriverState && globalDriverState.status === "Leave") {
+     // We only return Leave status if there is NO active transfer covering it for today.
+     // In a real app, transferHistory 'date' might be a date range, but here it's a specific date.
+     return { ...driver, status: "Leave" };
+  }
+
+  return driver;
 }
