@@ -172,7 +172,8 @@ export function LeafletMap() {
         speed: number, 
         direction: number,
         driverId: number | null,
-        displaySpeed: number
+        displaySpeed: number,
+        isSpeeding: boolean
       }[] = [];
 
       ROUTES.forEach((route) => {
@@ -243,7 +244,8 @@ export function LeafletMap() {
             speed: 0.00015 + (Math.random() * 0.00010),
             direction: 1,
             driverId: driver ? driver.id : null,
-            displaySpeed: Math.random() < 0.05 ? Math.floor(Math.random() * 15) + 81 : Math.floor(Math.random() * 35) + 40
+            displaySpeed: Math.random() < 0.05 ? Math.floor(Math.random() * 15) + 81 : Math.floor(Math.random() * 35) + 40,
+            isSpeeding: false
           };
 
           const busHtml = L.divIcon({
@@ -396,11 +398,21 @@ export function LeafletMap() {
                 inner.style.transform = `rotate(${angle}deg)`;
                 
                 if (b.displaySpeed > 80) {
+                  if (!b.isSpeeding) {
+                    b.isSpeeding = true;
+                    const driverData = useFleetStore.getState().drivers.find(d => d.id === b.driverId);
+                    useFleetStore.getState().addSpeedingLog({
+                      driverName: driverData ? `${driverData.name} ${driverData.surname}` : "ไม่ระบุ",
+                      vehicle: driverData ? driverData.vehicle : "รถบัส",
+                      speed: b.displaySpeed
+                    });
+                  }
                   inner.style.borderColor = '#ef4444';
                   inner.style.color = '#ef4444';
                   inner.style.boxShadow = '0 0 12px rgba(239, 68, 68, 0.8)';
                   if (badge) badge.style.display = 'flex';
                 } else {
+                  b.isSpeeding = false;
                   inner.style.borderColor = b.route.color;
                   inner.style.color = b.route.color;
                   inner.style.boxShadow = '0 2px 6px rgba(0,0,0,0.3)';

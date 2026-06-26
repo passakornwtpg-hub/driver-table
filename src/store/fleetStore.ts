@@ -4,6 +4,14 @@ import { create } from "zustand";
 import type { Driver, ReserveDriver, Route, TransferRecord, LeaveReason, RouteRotationConfig, RouteId } from "@/types";
 import { DRIVERS, RESERVE_DRIVERS, ROUTES } from "@/mock-data";
 
+export interface SpeedingLog {
+  id: string;
+  driverName: string;
+  vehicle: string;
+  speed: number;
+  time: string;
+}
+
 interface FleetState {
   drivers: Driver[];
   reserveDrivers: ReserveDriver[];
@@ -18,6 +26,7 @@ interface FleetState {
   toast: { message: string; visible: boolean };
   panelsCollapsed: boolean;
   mapOnly: boolean;
+  speedingLogs: SpeedingLog[];
   
   // Actions
   setSelectedReserve: (reserve: ReserveDriver | null) => void;
@@ -37,6 +46,8 @@ interface FleetState {
   
   rotationConfigs: Record<string, RouteRotationConfig>;
   setRotationConfig: (routeId: RouteId, config: RouteRotationConfig) => void;
+  addSpeedingLog: (log: Omit<SpeedingLog, "id" | "time">) => void;
+  clearSpeedingLogs: () => void;
 }
 
 export const useFleetStore = create<FleetState>((set, get) => ({
@@ -54,6 +65,7 @@ export const useFleetStore = create<FleetState>((set, get) => ({
   panelsCollapsed: false,
   mapOnly: false,
   rotationConfigs: {},
+  speedingLogs: [],
 
   setSelectedReserve: (reserve) => set({ selectedReserve: reserve }),
 
@@ -124,4 +136,16 @@ export const useFleetStore = create<FleetState>((set, get) => ({
   
   focusDriverId: null,
   setFocusDriverId: (id) => set({ focusDriverId: id }),
+
+  addSpeedingLog: (log) => set((state) => {
+    const newLog: SpeedingLog = {
+      ...log,
+      id: `SPL-${Date.now()}-${Math.random().toString(36).substr(2, 5)}`,
+      time: new Date().toLocaleTimeString('th-TH', { hour: '2-digit', minute: '2-digit', second: '2-digit' })
+    };
+    return {
+      speedingLogs: [newLog, ...state.speedingLogs].slice(0, 50) // Keep latest 50 logs
+    };
+  }),
+  clearSpeedingLogs: () => set({ speedingLogs: [] })
 }));
