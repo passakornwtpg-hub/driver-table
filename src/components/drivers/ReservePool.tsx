@@ -13,11 +13,11 @@ export function ReservePool() {
         <div
           className="flex items-baseline gap-1.5 flex-1"
         >
-          <p className="text-[13px] font-bold text-[#0f172a]">Reserve Pool</p>
-          <p className="text-[11px] text-gray-400">กลุ่มคนสำรอง</p>
+          <p className="text-[0.8125rem] font-bold text-[#0f172a]">Reserve Pool</p>
+          <p className="text-[0.6875rem] text-gray-400">กลุ่มคนสำรอง</p>
         </div>
         <span
-          className="text-[9px] font-bold px-2 py-0.5 rounded-full"
+          className="text-[0.5625rem] font-bold px-2 py-0.5 rounded-full"
           style={{
             background: "linear-gradient(135deg, rgba(37,99,235,0.10), rgba(59,130,246,0.06))",
             color: "#1e3a8a",

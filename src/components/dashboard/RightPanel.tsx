@@ -17,8 +17,8 @@ export function RightPanel() {
         top: panelsCollapsed ? 0 : 12,
         bottom: panelsCollapsed ? 0 : 12,
         zIndex: 800,
-        /* Curtain animation: expands from 370 px → 50 % when closing */
-        width: panelsCollapsed ? "50%" : "370px",
+        /* Curtain animation: expands from 23.125rem → 50 % when closing */
+        width: panelsCollapsed ? "50%" : "23.125rem",
         borderRadius: panelsCollapsed ? "16px 0px 0px 16px" : "16px",
         transform: mapOnly ? "translateX(120%)" : "translateX(0)",
         opacity: mapOnly ? 0 : 1,
@@ -63,10 +63,10 @@ export function RightPanel() {
             <Users className="w-4 h-4 text-white" />
           </div>
           <div>
-            <h2 className="text-[14px] font-bold text-white leading-tight">
+            <h2 className="text-[0.875rem] font-bold text-white leading-tight">
               Fleet Management &amp; Reserve Pool
             </h2>
-            <p className="text-[10px] text-slate-400 mt-0.5">
+            <p className="text-[0.625rem] text-slate-400 mt-0.5">
               การจัดการกองรถและกลุ่มคนสำรอง
             </p>
           </div>
@@ -74,7 +74,7 @@ export function RightPanel() {
 
         {/* Bottom gradient fade */}
         <div
-          className="absolute inset-x-0 bottom-0 h-[1px]"
+          className="absolute inset-x-0 bottom-0 h-[0.0625rem]"
           style={{ background: "linear-gradient(90deg, transparent, rgba(37,99,235,0.30), rgba(71,85,105,0.25), transparent)" }}
         />
       </div>

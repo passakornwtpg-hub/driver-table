@@ -48,7 +48,7 @@ export function TimetableView({ open, onClose, initialRoute = "L1" }: TimetableV
       >
         {/* Top gradient bar */}
         <div
-          className="absolute inset-x-0 top-0 h-[3px] rounded-t-[20px]"
+          className="absolute inset-x-0 top-0 h-[0.1875rem] rounded-t-[1.25rem]"
           style={{ background: `linear-gradient(90deg, ${route.color}, ${route.color}99, #1e40af)` }}
         />
 
@@ -78,7 +78,7 @@ export function TimetableView({ open, onClose, initialRoute = "L1" }: TimetableV
             </div>
             <div>
               <h2 className="text-sm font-bold text-[#1a1a2e]">ตารางเวลาเดินรถ</h2>
-              <p className="text-[10px] text-gray-400">Shuttle Bus Timetable</p>
+              <p className="text-[0.625rem] text-gray-400">Shuttle Bus Timetable</p>
             </div>
           </div>
           <button
@@ -106,7 +106,7 @@ export function TimetableView({ open, onClose, initialRoute = "L1" }: TimetableV
             <button
               key={r.id}
               onClick={() => setActiveRoute(r.id)}
-              className="flex-1 text-[11px] font-bold py-2 rounded-xl transition-all duration-200 relative overflow-hidden"
+              className="flex-1 text-[0.6875rem] font-bold py-2 rounded-xl transition-all duration-200 relative overflow-hidden"
               style={
                 activeRoute === r.id
                   ? {
@@ -136,7 +136,7 @@ export function TimetableView({ open, onClose, initialRoute = "L1" }: TimetableV
         <div className="flex gap-2 px-5 pt-3 pb-2 flex-shrink-0">
           <button
             onClick={() => setDayType("weekday")}
-            className="text-[10px] font-semibold px-4 py-1.5 rounded-full transition-all duration-200 flex items-center gap-1.5"
+            className="text-[0.625rem] font-semibold px-4 py-1.5 rounded-full transition-all duration-200 flex items-center gap-1.5"
             style={
               dayType === "weekday"
                 ? {
@@ -155,7 +155,7 @@ export function TimetableView({ open, onClose, initialRoute = "L1" }: TimetableV
           </button>
           <button
             onClick={() => setDayType("weekend")}
-            className="text-[10px] font-semibold px-4 py-1.5 rounded-full transition-all duration-200 flex items-center gap-1.5"
+            className="text-[0.625rem] font-semibold px-4 py-1.5 rounded-full transition-all duration-200 flex items-center gap-1.5"
             style={
               dayType === "weekend"
                 ? {
@@ -175,12 +175,12 @@ export function TimetableView({ open, onClose, initialRoute = "L1" }: TimetableV
         </div>
 
         {/* Divider */}
-        <div className="mx-5 h-[1px]" style={{ background: "linear-gradient(90deg, transparent, rgba(26,26,46,0.08), transparent)" }} />
+        <div className="mx-5 h-[0.0625rem]" style={{ background: "linear-gradient(90deg, transparent, rgba(26,26,46,0.08), transparent)" }} />
 
         {/* Timetable grid */}
         <div className="flex-1 overflow-y-auto px-5 py-4">
           {rows.length === 0 ? (
-            <p className="text-center text-[12px] text-gray-400 py-10">ไม่มีรอบวิ่งในวันนี้</p>
+            <p className="text-center text-[0.75rem] text-gray-400 py-10">ไม่มีรอบวิ่งในวันนี้</p>
           ) : (
             <div className="space-y-1.5">
               {(() => {
@@ -196,7 +196,7 @@ export function TimetableView({ open, onClose, initialRoute = "L1" }: TimetableV
                 return flattenedRows.map(({ hour, minutes }) => (
                   <div key={hour} className="flex items-stretch gap-2">
                     <div
-                      className="w-10 flex-shrink-0 rounded-lg flex items-center justify-center text-white text-[12px] font-bold"
+                      className="w-10 flex-shrink-0 rounded-lg flex items-center justify-center text-white text-[0.75rem] font-bold"
                       style={{
                         background: `linear-gradient(135deg, ${route.color}, ${route.color}cc)`,
                         boxShadow: `0 2px 8px ${route.color}40, inset 0 1px 0 rgba(255,255,255,0.2)`,
@@ -246,10 +246,10 @@ export function TimetableView({ open, onClose, initialRoute = "L1" }: TimetableV
                             }}
                             title={driver ? `Driver: ${driver.name} ${driver.surname} (${driver.code})${isSubstitute ? ' (ตัวแทน)' : ''}` : "No driver assigned"}
                           >
-                            <span className="text-[12px] font-bold" style={{ color: isSubstitute ? route.color : "#374151", transition: "color 0.15s" }}>
+                            <span className="text-[0.75rem] font-bold" style={{ color: isSubstitute ? route.color : "#374151", transition: "color 0.15s" }}>
                               {m}
                             </span>
-                            <span className="text-[9px] font-medium truncate max-w-[45px]" style={{ color: isLeave ? "#ef4444" : (isSubstitute ? route.color : "#6b7280"), transition: "color 0.15s" }}>
+                            <span className="text-[0.5625rem] font-medium truncate max-w-[2.8125rem]" style={{ color: isLeave ? "#ef4444" : (isSubstitute ? route.color : "#6b7280"), transition: "color 0.15s" }}>
                               {driver ? (isLeave ? "Leave" : driver.name) : "-"}
                             </span>
                           </div>
@@ -261,7 +261,7 @@ export function TimetableView({ open, onClose, initialRoute = "L1" }: TimetableV
               })()}
             </div>
           )}
-          <p className="text-[9px] text-gray-400 mt-4 text-center">เวลาออกรถ และชื่อคนขับประจำรอบ (หมุนเวียนคิวทุกวัน)</p>
+          <p className="text-[0.5625rem] text-gray-400 mt-4 text-center">เวลาออกรถ และชื่อคนขับประจำรอบ (หมุนเวียนคิวทุกวัน)</p>
         </div>
       </div>
     </div>

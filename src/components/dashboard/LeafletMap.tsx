@@ -2,6 +2,7 @@
 
 import { useEffect, useRef } from "react";
 import { useFleetStore } from "@/store/fleetStore";
+import { getEffectiveDriver } from "@/lib/shiftRotation";
 
 const ROUTES = [
   {
@@ -94,7 +95,7 @@ export function LeafletMap() {
   const mapInstanceRef = useRef<any>(null);
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const busMarkersRef = useRef<any[]>([]);
-  const { drivers, focusDriverId } = useFleetStore();
+  const { drivers, focusDriverId, focusTrigger } = useFleetStore();
 
   useEffect(() => {
     if (!mapRef.current) return;
@@ -176,7 +177,8 @@ export function LeafletMap() {
         displaySpeed: number,
         isSpeeding: boolean,
         innerEl: HTMLElement | null,
-        badgeEl: HTMLElement | null
+        badgeEl: HTMLElement | null,
+        updatePopup: () => void
       }[] = [];
 
       ROUTES.forEach((route) => {
@@ -230,11 +232,13 @@ export function LeafletMap() {
 
         // Map route.id to driver route string
         const routeIdMap: Record<string, string> = {
-          red: "Line 1",
-          blue: "Line 2",
-          green: "Line 3",
+          red: "L1",
+          blue: "L2",
+          green: "L3",
         };
-        const routeDrivers = drivers.filter(d => d.route === routeIdMap[route.id] && d.status === "Active");
+        const routeDrivers = drivers
+          .filter(d => d.routeId === routeIdMap[route.id])
+          .map(d => getEffectiveDriver(d) || d);
 
         // Buses
         for(let i=0; i<5; i++) {
@@ -250,7 +254,8 @@ export function LeafletMap() {
             displaySpeed: Math.random() < 0.05 ? Math.floor(Math.random() * 15) + 81 : Math.floor(Math.random() * 35) + 40,
             isSpeeding: false,
             innerEl: null as HTMLElement | null,
-            badgeEl: null as HTMLElement | null
+            badgeEl: null as HTMLElement | null,
+            updatePopup: () => {}
           };
 
           const busHtml = L.divIcon({
@@ -304,7 +309,10 @@ export function LeafletMap() {
           const marker = L.marker(route.points[0], { icon: busHtml, zIndexOffset: 1000 }).addTo(map);
           busObj.marker = marker;
           
-          marker.on('click', () => {
+          const popup = L.popup({ closeButton: false, offset: [0, -10], autoPan: false });
+          marker.bindPopup(popup);
+
+          busObj.updatePopup = () => {
             const displaySpeed = busObj.displaySpeed;
             let warningHtml = '';
             
@@ -328,7 +336,11 @@ export function LeafletMap() {
               </div>
             `;
 
-            marker.bindPopup(popupContent, { closeButton: false, offset: [0, -10] }).openPopup();
+            marker.setPopupContent(popupContent);
+          };
+
+          marker.on('click', () => {
+            busObj.updatePopup();
           });
 
           busMarkers.push(busObj);
@@ -473,11 +485,12 @@ export function LeafletMap() {
       const bus = busMarkersRef.current.find((b: any) => b.driverId === focusDriverId);
       if (bus && bus.marker) {
         const latLng = bus.marker.getLatLng();
-        mapInstanceRef.current.flyTo(latLng, 16.5, { duration: 1.0 });
-        bus.marker.fire('click');
+        mapInstanceRef.current.setView(latLng, 16.5, { animate: true, duration: 0.5 });
+        bus.updatePopup();
+        bus.marker.openPopup();
       }
     }
-  }, [focusDriverId]);
+  }, [focusDriverId, focusTrigger]);
 
   return (
     <div className="relative w-full h-full">

@@ -80,7 +80,7 @@ export function AnalyticsDashboard() {
           <Activity className="w-5 h-5 text-blue-600" />
           <h2 className="text-lg font-bold text-slate-800">แนวโน้มการดำเนินงานตลอดสัปดาห์</h2>
         </div>
-        <div className="h-[300px] w-full">
+        <div className="h-[18.75rem] w-full">
           <ResponsiveContainer width="100%" height="100%">
             <BarChart data={CHART_DATA} margin={{ top: 10, right: 10, left: -20, bottom: 0 }}>
               <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#e2e8f0" />
@@ -134,7 +134,7 @@ export function AnalyticsDashboard() {
                     </div>
                   </td>
                   <td className="py-4 px-2">
-                    <span className="inline-flex items-center px-2 py-1 rounded-md text-[11px] font-bold bg-emerald-50 text-emerald-600">
+                    <span className="inline-flex items-center px-2 py-1 rounded-md text-[0.6875rem] font-bold bg-emerald-50 text-emerald-600">
                       ปกติ (Normal)
                     </span>
                   </td>

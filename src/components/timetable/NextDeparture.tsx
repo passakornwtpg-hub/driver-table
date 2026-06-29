@@ -78,14 +78,14 @@ export function NextDeparture({ routeId, color }: NextDepartureProps) {
           />
 
           <div className="flex items-baseline gap-1 flex-1 min-w-0">
-            <span className="text-[9px] text-gray-500 whitespace-nowrap">อีก</span>
+            <span className="text-sm text-gray-500 whitespace-nowrap">อีก</span>
 
             {/* Minutes — the prominent countdown number */}
             <span
               className="font-extrabold tabular-nums leading-none"
               style={{
                 color: badgeColor,
-                fontSize: isUrgent ? "20px" : isWarning ? "18px" : "16px",
+                fontSize: isUrgent ? "24px" : isWarning ? "22px" : "20px",
                 /* Blink by reducing opacity; urgent blinks faster (handled by blinkId) */
                 opacity: isWarning || isUrgent ? (blink ? 1 : 0.25) : 1,
                 transition: "opacity 0.15s ease",
@@ -99,26 +99,26 @@ export function NextDeparture({ routeId, color }: NextDepartureProps) {
               {countdown.minutes}
             </span>
 
-            <span className="text-[10px] font-semibold" style={{ color: badgeColor }}>
+            <span className="text-sm font-semibold" style={{ color: badgeColor }}>
               นาที
             </span>
 
             {/* Seconds (small, always visible) */}
             <span
-              className="text-[9px] text-gray-400 tabular-nums"
+              className="text-xs text-gray-400 tabular-nums"
               style={{ minWidth: "2.2ch" }}
             >
               {String(countdown.seconds).padStart(2, "0")} วิ
             </span>
             
-            <span className="text-[9px] text-slate-500 whitespace-nowrap ml-1 truncate min-w-0">
+            <span className="text-xs text-slate-500 whitespace-nowrap ml-1 truncate min-w-0">
               {currentDriver ? `(รอบของ: ${currentDriver.name})` : "(ไม่พบคนขับ)"}
             </span>
           </div>
 
           {/* Next departure time badge */}
           <span
-            className="text-[9px] font-bold px-2 py-0.5 rounded-full flex-shrink-0 tabular-nums"
+            className="text-sm font-bold px-2 py-0.5 rounded-full flex-shrink-0 tabular-nums"
             style={{
               background: isUrgent
                 ? "rgba(239,68,68,0.15)"
@@ -141,7 +141,7 @@ export function NextDeparture({ routeId, color }: NextDepartureProps) {
           }}
         >
           <Clock className="w-3 h-3 text-gray-400" />
-          <span className="text-[9px] text-gray-400 italic">หมดรอบวันนี้</span>
+          <span className="text-xs text-gray-400 italic">หมดรอบวันนี้</span>
         </div>
       )}
 
@@ -154,7 +154,7 @@ export function NextDeparture({ routeId, color }: NextDepartureProps) {
             return (
               <span
                 key={i}
-                className="text-[9px] px-1.5 py-0.5 rounded border flex items-center gap-1"
+                className="text-xs px-1.5 py-0.5 rounded border flex items-center gap-1"
                 style={{
                   background: "rgba(248,249,252,0.8)",
                   borderColor: "rgba(148,163,184,0.2)",
@@ -163,12 +163,12 @@ export function NextDeparture({ routeId, color }: NextDepartureProps) {
                 title={driver ? `รอบของ: ${driver.name} ${driver.surname}` : ""}
               >
                 {dept.time}
-                {driver && <span className="text-slate-400 truncate max-w-[40px] hidden sm:inline-block"> {driver.name}</span>}
+                {driver && <span className="text-slate-400 truncate max-w-[2.5rem] hidden sm:inline-block"> {driver.name}</span>}
               </span>
             );
           })
         ) : (
-          <span className="text-[9px] text-gray-400">ไม่มีรอบถัดไป</span>
+          <span className="text-xs text-gray-400">ไม่มีรอบถัดไป</span>
         )}
       </div>
     </div>

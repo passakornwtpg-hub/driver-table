@@ -94,7 +94,7 @@ export function ScheduleSimulator() {
                   borderColor: "rgba(26,26,46,0.06)",
                 }}
               >
-                <span className="text-[10px] font-medium uppercase opacity-80">
+                <span className="text-[0.625rem] font-medium uppercase opacity-80">
                   {date.toLocaleDateString('en-US', { weekday: 'short' })}
                 </span>
                 <span className="text-lg font-bold">
@@ -137,7 +137,7 @@ export function ScheduleSimulator() {
           >
             <CalendarIcon className="w-5 h-5 text-indigo-500 pointer-events-none" />
             <div className="text-left pointer-events-none">
-              <span className="block text-[10px] font-medium text-slate-400">เลือกวันที่อื่น</span>
+              <span className="block text-[0.625rem] font-medium text-slate-400">เลือกวันที่อื่น</span>
               <span className="block text-sm font-bold text-slate-700">
                 {selectedDate.toLocaleDateString('th-TH', { year: 'numeric', month: 'short', day: 'numeric' })}
               </span>
@@ -152,7 +152,7 @@ export function ScheduleSimulator() {
           <button
             key={r.id}
             onClick={() => setActiveRoute(r.id)}
-            className="flex-1 text-[12px] font-bold py-2.5 rounded-lg transition-all duration-200 relative overflow-hidden"
+            className="flex-1 text-[0.75rem] font-bold py-2.5 rounded-lg transition-all duration-200 relative overflow-hidden"
             style={
               activeRoute === r.id
                 ? {
@@ -183,7 +183,7 @@ export function ScheduleSimulator() {
         </div>
 
         {rows.length === 0 ? (
-          <p className="text-center text-[13px] text-slate-500 py-10 font-medium bg-white rounded-xl border border-slate-100">
+          <p className="text-center text-[0.8125rem] text-slate-500 py-10 font-medium bg-white rounded-xl border border-slate-100">
             ไม่มีรอบวิ่งในวันนี้
           </p>
         ) : (
@@ -201,7 +201,7 @@ export function ScheduleSimulator() {
               return flattenedRows.map(({ hour, minutes }) => (
                 <div key={hour} className="flex flex-col md:flex-row md:items-stretch gap-2">
                   <div
-                    className="md:w-14 h-10 md:h-auto flex-shrink-0 rounded-xl flex items-center justify-center text-white text-[14px] font-bold"
+                    className="md:w-14 h-10 md:h-auto flex-shrink-0 rounded-xl flex items-center justify-center text-white text-[0.875rem] font-bold"
                     style={{
                       background: `linear-gradient(135deg, ${route.color}, ${route.color}dd)`,
                       boxShadow: `0 2px 8px ${route.color}30, inset 0 1px 0 rgba(255,255,255,0.2)`,
@@ -239,10 +239,10 @@ export function ScheduleSimulator() {
                           }}
                           title={driver ? `Driver: ${driver.name} ${driver.surname} (${driver.code})${isSubstitute ? ' (ตัวแทน)' : ''}` : "No driver assigned"}
                         >
-                          <span className="text-[14px] font-bold text-slate-700" style={{ color: isSubstitute ? route.color : undefined }}>
+                          <span className="text-[0.875rem] font-bold text-slate-700" style={{ color: isSubstitute ? route.color : undefined }}>
                             {m}
                           </span>
-                          <span className="text-[11px] font-medium truncate max-w-[60px] mt-0.5" style={{ color: isLeave ? "#ef4444" : (isSubstitute ? route.color : "#64748b") }}>
+                          <span className="text-[0.6875rem] font-medium truncate max-w-[3.75rem] mt-0.5" style={{ color: isLeave ? "#ef4444" : (isSubstitute ? route.color : "#64748b") }}>
                             {driver ? (isLeave ? "Leave" : driver.name) : "-"}
                           </span>
                         </div>

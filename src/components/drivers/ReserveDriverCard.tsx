@@ -75,13 +75,13 @@ export function ReserveDriverCard({ driver }: ReserveDriverCardProps) {
         color="#cbd5e1"
         className="mx-auto mb-1 relative z-10"
       />
-      <p className={cn("font-bold text-center text-[#0f172a] relative z-10", compact ? "text-[9px]" : "text-[11px]")}>{driver.name}</p>
-      <p className={cn("text-gray-400 text-center relative z-10", compact ? "text-[7px] mb-1" : "text-[9px] mb-2")}>{driver.role}</p>
+      <p className={cn("font-bold text-center text-[#0f172a] relative z-10", compact ? "text-[0.5625rem]" : "text-[0.6875rem]")}>{driver.name}</p>
+      <p className={cn("text-gray-400 text-center relative z-10", compact ? "text-[0.4375rem] mb-1" : "text-[0.5625rem] mb-2")}>{driver.role}</p>
 
       {/* Status */}
       <div className="mb-1.5 relative z-10">
         <span
-          className="text-[8px] font-bold px-2 py-0.5 rounded-full block text-center"
+          className="text-[0.5rem] font-bold px-2 py-0.5 rounded-full block text-center"
           style={
             isAssigned
               ? { background: "rgba(148,163,184,0.15)", color: "#94a3b8" }
@@ -97,7 +97,7 @@ export function ReserveDriverCard({ driver }: ReserveDriverCardProps) {
       </div>
 
       {/* Capacity bar */}
-      <p className={cn("text-gray-500 mb-0.5 relative z-10", compact ? "text-[7px]" : "text-[8px]")}>
+      <p className={cn("text-gray-500 mb-0.5 relative z-10", compact ? "text-[0.4375rem]" : "text-[0.5rem]")}>
         Cap: <span className="font-semibold">{driver.availability}%</span>
       </p>
       <ProgressBar value={driver.availability} height={compact ? "h-1" : "h-1.5"} />
@@ -106,7 +106,7 @@ export function ReserveDriverCard({ driver }: ReserveDriverCardProps) {
       {isSelected && !isAssigned && (
         <div className="mt-2 flex items-center justify-center gap-1 relative z-10">
           <CheckCircle2 className="w-3 h-3 text-[#1e3a8a]" />
-          <span className="text-[9px] text-[#1e3a8a] font-bold">Selected</span>
+          <span className="text-[0.5625rem] text-[#1e3a8a] font-bold">Selected</span>
         </div>
       )}
     </div>

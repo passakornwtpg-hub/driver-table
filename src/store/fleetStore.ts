@@ -27,6 +27,7 @@ interface FleetState {
   panelsCollapsed: boolean;
   mapOnly: boolean;
   speedingLogs: SpeedingLog[];
+  userRole: "dispatcher" | "driver";
   
   // Actions
   setSelectedReserve: (reserve: ReserveDriver | null) => void;
@@ -45,6 +46,7 @@ interface FleetState {
   setFocusDriverId: (id: number | null) => void;
   
   rotationConfigs: Record<string, RouteRotationConfig>;
+  setUserRole: (role: "dispatcher" | "driver") => void;
   setRotationConfig: (routeId: RouteId, config: RouteRotationConfig) => void;
   addSpeedingLog: (log: Omit<SpeedingLog, "id" | "time">) => void;
   clearSpeedingLogs: () => void;
@@ -66,6 +68,9 @@ export const useFleetStore = create<FleetState>((set, get) => ({
   mapOnly: false,
   rotationConfigs: {},
   speedingLogs: [],
+  userRole: "dispatcher",
+
+  setUserRole: (role) => set({ userRole: role }),
 
   setSelectedReserve: (reserve) => set({ selectedReserve: reserve }),
 
@@ -135,7 +140,8 @@ export const useFleetStore = create<FleetState>((set, get) => ({
   toggleMapOnly: () => set((s) => ({ mapOnly: !s.mapOnly })),
   
   focusDriverId: null,
-  setFocusDriverId: (id) => set({ focusDriverId: id }),
+  focusTrigger: 0,
+  setFocusDriverId: (id) => set((state) => ({ focusDriverId: id, focusTrigger: state.focusTrigger + 1 })),
 
   addSpeedingLog: (log) => set((state) => {
     const newLog: SpeedingLog = {

@@ -38,7 +38,7 @@ export function RouteOverviewPanel() {
           left:   panelsCollapsed ? 0 : 12,
           top:    panelsCollapsed ? 0 : 12,
           bottom: panelsCollapsed ? 0 : 12,
-          width:  panelsCollapsed ? "50%" : 340,
+          width:  panelsCollapsed ? "50%" : 480,
           borderRadius: panelsCollapsed ? "0px 16px 16px 0px" : "16px 16px 16px 16px",
           transform: mapOnly ? "translateX(-120%)" : "translateX(0)",
           opacity: mapOnly ? 0 : 1,
@@ -59,7 +59,7 @@ export function RouteOverviewPanel() {
       >
         {/* Decorative top gradient bar */}
         <div
-          className="absolute inset-x-0 top-0 h-[3px] rounded-t-2xl"
+          className="absolute inset-x-0 top-0 h-[0.1875rem] rounded-t-2xl"
           style={{ background: "linear-gradient(90deg, #1e3a8a, #1e40af, #475569)" }}
         />
 
@@ -76,10 +76,10 @@ export function RouteOverviewPanel() {
               <Activity className="w-3.5 h-3.5 text-white" />
             </div>
             <div>
-              <p className={`${panelsCollapsed ? "text-base" : "text-sm"} font-bold text-[#0f172a] transition-all duration-500`}>
+              <p className={`${panelsCollapsed ? "text-lg" : "text-base"} font-bold text-[#0f172a] transition-all duration-500`}>
                 Active Routes Overview
               </p>
-              <p className="text-[10px] text-gray-400">ภาพรวมเส้นทางที่ใช้งานอยู่</p>
+              <p className="text-xs text-gray-400">ภาพรวมเส้นทางที่ใช้งานอยู่</p>
             </div>
           </div>
           <div className="flex items-center gap-2">
@@ -120,7 +120,7 @@ export function RouteOverviewPanel() {
         </div>
 
         {/* Divider */}
-        <div className="h-[1px] w-full mb-3" style={{ background: "linear-gradient(90deg, transparent, rgba(26,26,46,0.08), transparent)" }} />
+        <div className="h-[0.0625rem] w-full mb-3" style={{ background: "linear-gradient(90deg, transparent, rgba(26,26,46,0.08), transparent)" }} />
 
         {/* Stats bar — only in expanded mode */}
         {panelsCollapsed && (
@@ -136,8 +136,8 @@ export function RouteOverviewPanel() {
                 className="flex-1 rounded-lg px-2 py-1.5 text-center"
                 style={{ background: "linear-gradient(135deg, rgba(26,26,46,0.04), rgba(26,26,46,0.02))", border: "1px solid rgba(26,26,46,0.05)" }}
               >
-                <p className="text-[16px] font-extrabold leading-tight" style={{ color: s.color }}>{s.value}</p>
-                <p className="text-[9px] text-gray-400 leading-tight">{s.label}</p>
+                <p className="text-xl font-extrabold leading-tight" style={{ color: s.color }}>{s.value}</p>
+                <p className="text-xs text-gray-400 leading-tight">{s.label}</p>
               </div>
             ))}
           </div>

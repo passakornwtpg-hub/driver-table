@@ -40,7 +40,7 @@ export function MobileBottomNav() {
     >
       {/* Top accent line */}
       <div
-        className="absolute inset-x-0 top-0 h-[2px]"
+        className="absolute inset-x-0 top-0 h-[0.125rem]"
         style={{
           background:
             "linear-gradient(90deg, #1e3a8a 0%, #1e40af 30%, #475569 70%, #0f172a 100%)",
@@ -79,7 +79,7 @@ export function MobileBottomNav() {
               {/* Active top indicator */}
               {isActive && (
                 <span
-                  className="absolute top-0 left-1/2 -translate-x-1/2 h-[2px] rounded-full"
+                  className="absolute top-0 left-1/2 -translate-x-1/2 h-[0.125rem] rounded-full"
                   style={{
                     width: "28px",
                     background: "linear-gradient(90deg, #1e3a8a, #1e40af)",

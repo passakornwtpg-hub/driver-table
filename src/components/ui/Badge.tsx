@@ -17,7 +17,7 @@ export function StatusBadge({ status, className }: StatusBadgeProps) {
   return (
     <span
       className={cn(
-        "inline-flex items-center px-1.5 py-0.5 rounded text-[9px] font-semibold",
+        "inline-flex items-center px-1.5 py-0.5 rounded text-[0.5625rem] font-semibold",
         STATUS_STYLES[status],
         className
       )}
@@ -36,7 +36,7 @@ interface RouteBadgeProps {
 export function RouteBadge({ label, color }: RouteBadgeProps) {
   return (
     <span
-      className="inline-flex items-center px-2 py-0.5 rounded-full text-[9px] font-bold text-white"
+      className="inline-flex items-center px-2 py-0.5 rounded-full text-[0.5625rem] font-bold text-white"
       style={{ backgroundColor: color }}
     >
       {label}

@@ -72,7 +72,7 @@ export function FleetChart() {
       >
         {/* gradient line */}
         <div
-          className="absolute inset-x-0 top-0 h-[3px] rounded-t-2xl"
+          className="absolute inset-x-0 top-0 h-[0.1875rem] rounded-t-2xl"
           style={{ background: "linear-gradient(90deg, #1e40af, #1e3a8a, #d97706)" }}
         />
         <div
@@ -85,7 +85,7 @@ export function FleetChart() {
           <BarChart2 className="w-2.5 h-2.5 text-white" />
         </div>
         <span
-          className="text-[10px] font-bold"
+          className="text-[0.625rem] font-bold"
           style={{
             background: "linear-gradient(135deg, #0f172a, #1e293b)",
             WebkitBackgroundClip: "text",
@@ -102,7 +102,7 @@ export function FleetChart() {
   /* ── Expanded: panel เต็ม ── */
   return (
     <div
-      className="hidden md:block absolute top-3 right-3 rounded-2xl p-3 w-[168px] overflow-hidden"
+      className="hidden md:block absolute top-3 right-3 rounded-2xl p-3 w-[10.5rem] overflow-hidden"
       style={{
         background: "rgba(255,255,255,0.93)",
         backdropFilter: "blur(20px) saturate(180%)",
@@ -115,7 +115,7 @@ export function FleetChart() {
     >
       {/* Decorative top gradient bar */}
       <div
-        className="absolute inset-x-0 top-0 h-[3px] rounded-t-2xl"
+        className="absolute inset-x-0 top-0 h-[0.1875rem] rounded-t-2xl"
         style={{ background: "linear-gradient(90deg, #1e40af, #1e3a8a, #d97706)" }}
       />
 
@@ -131,7 +131,7 @@ export function FleetChart() {
           <TrendingUp className="w-2.5 h-2.5 text-white" />
         </div>
         <p
-          className="text-[10px] font-bold leading-tight flex-1"
+          className="text-[0.625rem] font-bold leading-tight flex-1"
           style={{
             background: "linear-gradient(135deg, #0f172a, #1e293b)",
             WebkitBackgroundClip: "text",
@@ -175,7 +175,7 @@ export function FleetChart() {
         {Object.entries(BAR_COLORS).map(([key, color]) => (
           <div key={key} className="flex items-center gap-0.5">
             <span className="w-1.5 h-1.5 rounded-full inline-block" style={{ background: color, boxShadow: `0 0 4px ${color}80` }} />
-            <span className="text-[7px] text-gray-400 capitalize">{key}</span>
+            <span className="text-[0.4375rem] text-gray-400 capitalize">{key}</span>
           </div>
         ))}
       </div>
@@ -185,7 +185,7 @@ export function FleetChart() {
         className="flex items-center justify-between mb-2 px-2 py-1.5 rounded-lg"
         style={{ background: "rgba(26,26,46,0.04)", border: "1px solid rgba(26,26,46,0.05)" }}
       >
-        <span className="text-[9px] text-gray-500 font-semibold">Pilten</span>
+        <span className="text-[0.5625rem] text-gray-500 font-semibold">Pilten</span>
         <button
           onClick={() => setPilten((v) => !v)}
           className="relative inline-flex h-4 w-7 items-center rounded-full transition-all duration-300 focus:outline-none"
@@ -208,12 +208,12 @@ export function FleetChart() {
       </div>
 
       {/* Divider */}
-      <div className="h-[1px] mb-2" style={{ background: "linear-gradient(90deg, transparent, rgba(26,26,46,0.08), transparent)" }} />
+      <div className="h-[0.0625rem] mb-2" style={{ background: "linear-gradient(90deg, transparent, rgba(26,26,46,0.08), transparent)" }} />
 
       {/* Fleet utilization */}
       <div>
         <p
-          className="text-[9px] font-bold mb-1.5"
+          className="text-[0.5625rem] font-bold mb-1.5"
           style={{
             background: "linear-gradient(135deg, #0f172a, #1e293b)",
             WebkitBackgroundClip: "text",

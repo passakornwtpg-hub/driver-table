@@ -33,7 +33,7 @@ export function Sidebar() {
 
   return (
     <aside
-      className="w-[72px] flex flex-col items-center py-3 gap-1 flex-shrink-0 relative"
+      className="w-[4.5rem] flex flex-col items-center py-3 gap-1 flex-shrink-0 relative"
       style={{
         background: "linear-gradient(180deg, #0f172a 0%, #1e293b 60%, #334155 100%)",
         boxShadow: "2px 0 28px rgba(0,0,0,0.35), inset -1px 0 0 rgba(255,255,255,0.04)",
@@ -41,7 +41,7 @@ export function Sidebar() {
     >
       {/* Decorative vertical glow line */}
       <div
-        className="absolute right-0 inset-y-0 w-[1px]"
+        className="absolute right-0 inset-y-0 w-[0.0625rem]"
         style={{ background: "linear-gradient(180deg, transparent, rgba(37,99,235,0.30) 40%, rgba(71,85,105,0.25) 70%, transparent)" }}
       />
 
@@ -73,8 +73,8 @@ export function Sidebar() {
             href={href}
             onClick={() => setHash(href.includes("#") ? `#${href.split("#")[1]}` : "")}
             className={cn(
-              "relative w-[52px] h-[52px] rounded-xl flex flex-col items-center justify-center gap-1",
-              "text-[9px] cursor-pointer group overflow-hidden",
+              "relative w-[3.25rem] h-[3.25rem] rounded-xl flex flex-col items-center justify-center gap-1",
+              "text-[0.5625rem] cursor-pointer group overflow-hidden",
               "transition-all duration-250"
             )}
             style={
@@ -109,11 +109,11 @@ export function Sidebar() {
       })}
 
       {/* Divider */}
-      <div className="mt-auto mb-1 w-8 h-[1px]" style={{ background: "rgba(255,255,255,0.08)" }} />
+      <div className="mt-auto mb-1 w-8 h-[0.0625rem]" style={{ background: "rgba(255,255,255,0.08)" }} />
 
       {/* Settings */}
       <button
-        className="relative w-[52px] h-[52px] rounded-xl flex flex-col items-center justify-center gap-1 text-[9px] text-[#94a3b8] group overflow-hidden transition-all duration-200"
+        className="relative w-[3.25rem] h-[3.25rem] rounded-xl flex flex-col items-center justify-center gap-1 text-[0.5625rem] text-[#94a3b8] group overflow-hidden transition-all duration-200"
         title="Settings"
         style={{ transition: "all 0.2s ease" }}
       >

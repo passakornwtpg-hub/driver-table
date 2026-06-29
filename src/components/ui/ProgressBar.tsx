@@ -28,7 +28,7 @@ export function ProgressBar({
         />
       </div>
       {showLabel && (
-        <p className="text-[9px] font-semibold mt-0.5" style={{ color: barColor }}>
+        <p className="text-[0.5625rem] font-semibold mt-0.5" style={{ color: barColor }}>
           {value}%
         </p>
       )}

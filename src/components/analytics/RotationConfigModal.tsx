@@ -123,7 +123,7 @@ export function RotationConfigModal({ open, onClose, initialRoute }: RotationCon
                 <button
                   key={r.id}
                   onClick={() => setActiveRoute(r.id)}
-                  className="flex-1 text-[12px] font-bold py-2 rounded-lg transition-all duration-200"
+                  className="flex-1 text-[0.75rem] font-bold py-2 rounded-lg transition-all duration-200"
                   style={
                     activeRoute === r.id
                       ? {
@@ -157,7 +157,7 @@ export function RotationConfigModal({ open, onClose, initialRoute }: RotationCon
                 className="w-full pl-10 pr-4 py-2.5 rounded-xl border border-slate-200 bg-white text-sm font-medium text-slate-700 focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 transition-all"
               />
             </div>
-            <p className="text-[10px] text-slate-400 mt-1.5">
+            <p className="text-[0.625rem] text-slate-400 mt-1.5">
               คิวคนขับที่คุณจัดเรียงด้านล่าง จะถูกนำไปใช้เป็นลำดับแรก (คิวเช้าสุด) ของวันที่คุณเลือก
             </p>
           </div>
@@ -178,12 +178,12 @@ export function RotationConfigModal({ open, onClose, initialRoute }: RotationCon
                   }}
                 >
                   <div className="flex items-center gap-3">
-                    <div className="w-6 h-6 rounded-full bg-slate-100 flex items-center justify-center text-[10px] font-bold text-slate-500">
+                    <div className="w-6 h-6 rounded-full bg-slate-100 flex items-center justify-center text-[0.625rem] font-bold text-slate-500">
                       {index + 1}
                     </div>
                     <div>
                       <p className="text-sm font-bold text-slate-700">{driver.name}</p>
-                      <p className="text-[10px] text-slate-400">{driver.code}</p>
+                      <p className="text-[0.625rem] text-slate-400">{driver.code}</p>
                     </div>
                   </div>
                   <div className="flex items-center gap-1">
@@ -205,7 +205,7 @@ export function RotationConfigModal({ open, onClose, initialRoute }: RotationCon
                 </div>
               ))}
             </div>
-            <p className="text-[10px] text-slate-400 mt-2 text-center">
+            <p className="text-[0.625rem] text-slate-400 mt-2 text-center">
               ใช้ลูกศร ขึ้น/ลง เพื่อสลับตำแหน่ง
             </p>
           </div>

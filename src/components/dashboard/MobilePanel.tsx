@@ -143,7 +143,7 @@ export function MobilePanel() {
 
           {/* Bottom gradient line */}
           <div
-            className="h-[1px]"
+            className="h-[0.0625rem]"
             style={{
               background:
                 "linear-gradient(90deg, transparent, rgba(37,99,235,0.30), rgba(71,85,105,0.25), transparent)",
@@ -161,8 +161,8 @@ export function MobilePanel() {
             {/* Active Routes Section */}
             <div>
               <div className="flex items-center justify-between mb-3">
-                <h3 className="text-[14px] font-bold text-[#0f172a]">Active Routes</h3>
-                <span className="text-[10px] text-gray-400">ดูเวลาและตารางเดินรถ</span>
+                <h3 className="text-[0.875rem] font-bold text-[#0f172a]">Active Routes</h3>
+                <span className="text-[0.625rem] text-gray-400">ดูเวลาและตารางเดินรถ</span>
               </div>
               <div className="flex flex-col gap-3">
                 {routes.map((route, i) => (
