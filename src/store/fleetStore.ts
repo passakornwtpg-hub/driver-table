@@ -43,6 +43,7 @@ interface FleetState {
   togglePanels: () => void;
   toggleMapOnly: () => void;
   focusDriverId: number | null;
+  focusTrigger: number;
   setFocusDriverId: (id: number | null) => void;
   
   rotationConfigs: Record<string, RouteRotationConfig>;
