@@ -29,9 +29,9 @@ export function ReserveDriverCard({ driver }: ReserveDriverCardProps) {
       style={
         isSelected && !isAssigned
           ? {
-              background: "linear-gradient(135deg, rgba(37,99,235,0.07), rgba(59,130,246,0.04))",
-              border: "1.5px solid rgba(37,99,235,0.35)",
-              boxShadow: "0 4px 16px rgba(37,99,235,0.14), inset 0 1px 0 rgba(255,255,255,0.9)",
+              background: "linear-gradient(135deg, rgba(255,237,213,0.95), rgba(254,215,170,0.8))",
+              border: "1.5px solid rgba(249,115,22,0.4)",
+              boxShadow: "0 4px 16px rgba(234,88,12,0.15), inset 0 1px 0 rgba(255,255,255,0.9)",
             }
           : isAssigned
           ? {
@@ -40,23 +40,23 @@ export function ReserveDriverCard({ driver }: ReserveDriverCardProps) {
               boxShadow: "0 1px 4px rgba(26,26,46,0.05)",
             }
           : {
-              background: "linear-gradient(135deg, rgba(255,255,255,0.95), rgba(248,249,252,0.9))",
-              border: "1.5px solid rgba(255,255,255,0.9)",
-              boxShadow: "0 2px 8px rgba(26,26,46,0.07), inset 0 1px 0 rgba(255,255,255,1)",
+              background: "linear-gradient(135deg, #ffffff, #f8fafc)",
+              border: "1.5px solid rgba(226,232,240,0.9)",
+              boxShadow: "0 4px 14px rgba(15,23,42,0.08), inset 0 1px 0 rgba(255,255,255,1)",
             }
       }
       onMouseEnter={(e) => {
         if (!isAssigned && !isSelected) {
           const el = e.currentTarget as HTMLDivElement;
           el.style.transform = "translateY(-2px)";
-          el.style.boxShadow = "0 8px 24px rgba(26,26,46,0.12), inset 0 1px 0 rgba(255,255,255,1)";
+          el.style.boxShadow = "0 8px 24px rgba(15,23,42,0.12), inset 0 1px 0 rgba(255,255,255,1)";
         }
       }}
       onMouseLeave={(e) => {
         if (!isAssigned && !isSelected) {
           const el = e.currentTarget as HTMLDivElement;
           el.style.transform = "translateY(0)";
-          el.style.boxShadow = "0 2px 8px rgba(26,26,46,0.07), inset 0 1px 0 rgba(255,255,255,1)";
+          el.style.boxShadow = "0 4px 14px rgba(15,23,42,0.08), inset 0 1px 0 rgba(255,255,255,1)";
         }
       }}
     >
@@ -64,7 +64,7 @@ export function ReserveDriverCard({ driver }: ReserveDriverCardProps) {
       {isSelected && !isAssigned && (
         <div
           className="absolute inset-0 rounded-xl pointer-events-none"
-          style={{ background: "linear-gradient(135deg, rgba(37,99,235,0.05) 0%, transparent 60%)" }}
+          style={{ background: "linear-gradient(135deg, rgba(249,115,22,0.05) 0%, transparent 60%)" }}
         />
       )}
 
@@ -72,7 +72,7 @@ export function ReserveDriverCard({ driver }: ReserveDriverCardProps) {
       <Avatar
         name={driver.name}
         size={compact ? "sm" : "md"}
-        color="#cbd5e1"
+        color="#f97316"
         className="mx-auto mb-1 relative z-10"
       />
       <p className={cn("font-bold text-center text-[#0f172a] relative z-10", compact ? "text-[0.825rem]" : "text-[0.9rem]")}>{driver.name}</p>
@@ -105,8 +105,8 @@ export function ReserveDriverCard({ driver }: ReserveDriverCardProps) {
       {/* Selected badge */}
       {isSelected && !isAssigned && (
         <div className="mt-2 flex items-center justify-center gap-1 relative z-10">
-          <CheckCircle2 className="w-3 h-3 text-[#1e3a8a]" />
-          <span className="text-[0.75rem] text-[#1e3a8a] font-bold">Selected</span>
+          <CheckCircle2 className="w-3 h-3 text-[#ea580c]" />
+          <span className="text-[0.75rem] text-[#ea580c] font-bold">Selected</span>
         </div>
       )}
     </div>
