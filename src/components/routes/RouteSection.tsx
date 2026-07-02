@@ -40,9 +40,9 @@ export function RouteSection({ route, drivers, lineNum, onShowTimetable, expande
       />
 
       {/* Header */}
-      <div className={`flex items-center gap-2 pl-2 ${expanded ? "" : "mb-0"}`}>
+      <div className={`flex items-start gap-2 pl-1 ${expanded ? "" : "mb-0"}`}>
         <div
-          className={`${expanded ? "w-11 h-11 text-lg" : "w-9 h-9 text-base"} rounded-md flex items-center justify-center font-bold text-white flex-shrink-0 relative overflow-hidden`}
+          className={`${expanded ? "w-9 h-9 text-base mt-0.5" : "w-9 h-9 text-base"} rounded-md flex items-center justify-center font-bold text-white flex-shrink-0 relative overflow-hidden`}
           style={{
             background: `linear-gradient(135deg, ${route.color}, ${route.color}cc)`,
             boxShadow: `0 2px 8px ${route.color}50, inset 0 1px 0 rgba(255,255,255,0.25)`,
@@ -51,12 +51,28 @@ export function RouteSection({ route, drivers, lineNum, onShowTimetable, expande
           <div className="absolute inset-0" style={{ background: "linear-gradient(135deg, rgba(255,255,255,0.2) 0%, transparent 60%)" }} />
           <span className="relative z-10">{lineNum}</span>
         </div>
-        <div className="flex-1 min-w-0">
-          <p className={`${expanded ? "text-lg" : "text-base"} font-bold text-[#0f172a] leading-tight`}>
-            {route.name}
+        <div className="flex-1 min-w-0 flex flex-col">
+          <p className={`${expanded ? "text-base" : "text-base"} font-bold text-[#0f172a] whitespace-nowrap leading-tight`}>
+            {expanded ? route.labelTh : route.name}
           </p>
           {expanded && (
-            <p className="text-sm text-gray-400 leading-tight">{route.labelTh}</p>
+            <p className="text-[0.7rem] text-gray-400 whitespace-nowrap leading-tight">{route.name}</p>
+          )}
+          {expanded && (
+            <div className="flex flex-wrap items-center gap-1 mt-1">
+              <span
+                className="text-[0.65rem] font-bold px-1.5 py-0.5 rounded"
+                style={{ background: `${route.color}18`, color: route.color }}
+              >
+                {activeCount} Active
+              </span>
+              {leaveCount > 0 && (
+                <span className="text-[0.65rem] font-bold px-1.5 py-0.5 rounded"
+                  style={{ background: "rgba(220,38,38,0.10)", color: "#dc2626" }}>
+                  {leaveCount} Leave
+                </span>
+              )}
+            </div>
           )}
         </div>
         {!expanded && (
@@ -69,22 +85,6 @@ export function RouteSection({ route, drivers, lineNum, onShowTimetable, expande
           >
             {route.labelTh}
           </span>
-        )}
-        {expanded && (
-          <div className="flex gap-1 flex-shrink-0">
-            <span
-              className="text-sm font-bold px-2 py-0.5 rounded-full"
-              style={{ background: `${route.color}18`, color: route.color }}
-            >
-              {activeCount} Active
-            </span>
-            {leaveCount > 0 && (
-              <span className="text-sm font-bold px-2 py-0.5 rounded-full"
-                style={{ background: "rgba(220,38,38,0.10)", color: "#dc2626" }}>
-                {leaveCount} Leave
-              </span>
-            )}
-          </div>
         )}
       </div>
 
