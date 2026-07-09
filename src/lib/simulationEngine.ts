@@ -323,7 +323,8 @@ export function runSimulation(config: SimConfig): SimResult {
       for (let d = 0; d < driverNames.length; d++) {
         if (driverWorkStart[d] !== -1) {
           const workSoFar = Math.max(0, dep - driverWorkStart[d]);
-          const isOffShift = (config.allowedOTDrivers && config.allowedOTDrivers[d] === false) && (workSoFar >= otThresholdMin);
+          const projectedWorkSoFar = Math.max(0, (dep + tripDurationMin) - driverWorkStart[d]);
+          const isOffShift = (config.allowedOTDrivers && config.allowedOTDrivers[d] === false) && (projectedWorkSoFar > otThresholdMin);
           if (isOffShift) continue;
 
           const isOT = workSoFar >= otThresholdMin;
@@ -359,11 +360,11 @@ export function runSimulation(config: SimConfig): SimResult {
       if (driverAvailableAt[d] > dep) return false;
 
       // Off-shift check (No OT)
-      const workSoFar = driverWorkStart[d] !== -1 ? Math.max(0, dep - driverWorkStart[d]) : 0;
-      const isOffShift = (config.allowedOTDrivers && config.allowedOTDrivers[d] === false) && (workSoFar >= otThresholdMin);
-      if (isOffShift) return false;
-
       const tripEnd = dep + tripDurationMin;
+      const workSoFar = driverWorkStart[d] !== -1 ? Math.max(0, dep - driverWorkStart[d]) : 0;
+      const projectedWorkSoFar = driverWorkStart[d] !== -1 ? Math.max(0, tripEnd - driverWorkStart[d]) : tripDurationMin;
+      const isOffShift = (config.allowedOTDrivers && config.allowedOTDrivers[d] === false) && (projectedWorkSoFar > otThresholdMin);
+      if (isOffShift) return false;
 
       // Strict limit check for all dynamic modes EXCEPT cumulative
       if ((breakMode === "smart" || breakMode === "continuous") && driverWorkStart[d] !== -1) {
@@ -435,7 +436,8 @@ export function runSimulation(config: SimConfig): SimResult {
 
         for (let d = 0; d < workingCount; d++) {
           const workSoFar = driverWorkStart[d] !== -1 ? Math.max(0, dep - driverWorkStart[d]) : 0;
-          const isOffShift = (config.allowedOTDrivers && config.allowedOTDrivers[d] === false) && (workSoFar >= otThresholdMin);
+          const projectedWorkSoFar = driverWorkStart[d] !== -1 ? Math.max(0, (dep + tripDurationMin) - driverWorkStart[d]) : tripDurationMin;
+          const isOffShift = (config.allowedOTDrivers && config.allowedOTDrivers[d] === false) && (projectedWorkSoFar > otThresholdMin);
           if (isOffShift) continue;
 
           if (driverAvailableAt[d] < minAvail) {
@@ -466,7 +468,8 @@ export function runSimulation(config: SimConfig): SimResult {
     }
 
     const workSoFar = dep - driverWorkStart[bestDriver];
-    const isOT = workSoFar >= otThresholdMin;
+    const projectedWorkSoFar = (dep + tripDurationMin) - driverWorkStart[bestDriver];
+    const isOT = projectedWorkSoFar > otThresholdMin;
     const trip: TripAssignment = {
       tripIndex: i,
       departureMin: dep,
