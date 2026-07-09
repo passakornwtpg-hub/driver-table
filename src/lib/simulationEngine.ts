@@ -326,10 +326,12 @@ export function runSimulation(config: SimConfig): SimResult {
           const isOffShift = (config.allowedOTDrivers && config.allowedOTDrivers[d] === false) && (workSoFar >= otThresholdMin);
           if (isOffShift) continue;
 
-          const limit = driverLastBreakAt[d] + restThresholdMin;
+          const isOT = workSoFar >= otThresholdMin;
+          const effectiveRestThreshold = isOT ? restThresholdMin + Math.max(60, tripDurationMin) : restThresholdMin;
+          const limit = driverLastBreakAt[d] + effectiveRestThreshold;
           const projectedSinceBreak = (dep - driverLastBreakAt[d]) + tripDurationMin;
           
-          if (dep >= limit || (breakMode === "smart" && projectedSinceBreak > restThresholdMin)) {
+          if (dep >= limit || (breakMode === "smart" && projectedSinceBreak > effectiveRestThreshold)) {
              const breakStart = breakMode === "cumulative" ? limit : Math.max(driverAvailableAt[d], driverLastBreakAt[d]);
              const breakEnd = breakStart + BREAK_DURATION;
              
@@ -365,11 +367,13 @@ export function runSimulation(config: SimConfig): SimResult {
 
       // Strict limit check for all dynamic modes EXCEPT cumulative
       if ((breakMode === "smart" || breakMode === "continuous") && driverWorkStart[d] !== -1) {
+        const isOT = workSoFar >= otThresholdMin;
+        const effectiveRestThreshold = isOT ? restThresholdMin + Math.max(60, tripDurationMin) : restThresholdMin;
         const projectedSinceBreak = breakMode === "continuous"
            ? driverDrivingMinutes[d] + tripDurationMin
            : tripEnd - driverLastBreakAt[d];
            
-        if (projectedSinceBreak > restThresholdMin) {
+        if (projectedSinceBreak > effectiveRestThreshold) {
           const breakEnd = driverAvailableAt[d] + BREAK_DURATION;
           if (breakEnd > dep) return false;
         }
