@@ -278,6 +278,15 @@ export function runSimulation(config: SimConfig): SimResult {
     }
   }
 
+  if (config.crossLineAssist && route === "green") {
+    const thanagritIndex = driverNames.indexOf("ธนกฤต");
+    if (thanagritIndex !== -1) {
+      driverWorkStart[thanagritIndex] = 7 * 60 + 50; // 07:50
+      driverLastBreakAt[thanagritIndex] = 7 * 60 + 50;
+      driverAvailableAt[thanagritIndex] = Math.max(driverAvailableAt[thanagritIndex], 8 * 60 + 50); // 08:50
+    }
+  }
+
   const otThresholdMin = otThresholdHours * 60;
   const restThresholdMin = restAfterHours * 60;
   const BREAK_DURATION = 30;
@@ -304,6 +313,13 @@ export function runSimulation(config: SimConfig): SimResult {
 
   // For continuous mode: track actual driving minutes (not elapsed clock time)
   const driverDrivingMinutes: number[] = new Array(driverNames.length).fill(0);
+
+  if (config.crossLineAssist && route === "green") {
+    const thanagritIndex = driverNames.indexOf("ธนกฤต");
+    if (thanagritIndex !== -1) {
+      driverDrivingMinutes[thanagritIndex] = 60; // 07:50 to 08:50 is 60 minutes
+    }
+  }
   // For round-robin: track global turn index
   let rrPointer = 0;
 
