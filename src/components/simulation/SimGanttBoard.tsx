@@ -179,9 +179,12 @@ export function SimGanttBoard({ multiResult, tripDurations, otThresholdHours, ac
                       className="flex-shrink-0 flex items-center justify-center border-r border-slate-100 relative"
                       style={{ width: colW }}
                     >
-                      <p className="text-[0.65rem] font-bold text-slate-700 leading-none w-full text-center truncate px-1" title={driver.name}>
-                        {driver.name}
-                      </p>
+                      <div className="flex flex-col items-center justify-center w-full pb-1">
+                        <p className="text-[0.65rem] font-bold text-slate-700 leading-none w-full text-center truncate px-1" title={driver.name}>
+                          {driver.name}
+                        </p>
+                        <p className="text-[0.55rem] text-slate-500 mt-1 font-medium">{driver.trips.length} รอบ</p>
+                      </div>
                       {/* Colored line indicating route */}
                       <div 
                         className="absolute bottom-0 left-0 right-0 h-1" 
